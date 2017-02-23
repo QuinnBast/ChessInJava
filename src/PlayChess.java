@@ -1,3 +1,4 @@
+import Engine.ChessBoard;
 import gui.*;
 
 public class PlayChess {
