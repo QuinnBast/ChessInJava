@@ -1,9 +1,10 @@
+import gui.*;
 
 public class PlayChess {
-	public ChessBoard theBoard = new ChessBoard();
+	public static ChessBoard theBoard = new ChessBoard();
+	public static userGui gui = new userGui();
 	
 	public static void main(String args[]){
 		
 	}
-	
 }

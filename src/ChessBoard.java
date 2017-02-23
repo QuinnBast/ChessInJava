@@ -1,3 +1,5 @@
+import Pieces.*;
+
 public class ChessBoard{
 	private Piece[][] board = new Piece[8][8];
 	
@@ -20,14 +22,14 @@ public class ChessBoard{
 		board[7][6] = new Knight("black");
 		board[7][7] = new Rook("black");
 		
-		board[1][0] = new Rook("white");
-		board[1][1] = new Knight("white");
-		board[1][2] = new Bishop("white");
-		board[1][3] = new Queen("white");
-		board[1][4] = new King("white");
-		board[1][5] = new Bishop("white");
-		board[1][6] = new Knight("white");
-		board[1][7] = new Rook("white");
+		board[0][0] = new Rook("white");
+		board[0][1] = new Knight("white");
+		board[0][2] = new Bishop("white");
+		board[0][3] = new Queen("white");
+		board[0][4] = new King("white");
+		board[0][5] = new Bishop("white");
+		board[0][6] = new Knight("white");
+		board[0][7] = new Rook("white");
 	}
 	public Piece getPieceAtLocation(int x, int y){
 		return board[x][y];
