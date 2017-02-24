@@ -11,8 +11,10 @@ public class Knight extends Piece {
 	
 	
 	@Override
-	public ArrayList<Location> getPossibleMoves(int x, int y, ChessBoard theBoard){
+	public ArrayList<Location> getPossibleMoves(ChessBoard theBoard){
 		ArrayList<Location> possibleMoves = new ArrayList<Location>();
+		int x = this.getLocation().getX();
+		int y = this.getLocation().getY();
 		if ((x+2 < 8) && (y+1 < 8)){
 			if ((theBoard.getPieceAtLocation(x+2, y+1) == null) 
 				|| (theBoard.getPieceAtLocation(x+2, y+1).getColor() != this.getColor())){

@@ -10,7 +10,9 @@ public class Pawn extends Piece {
 	}
 	
 	@Override
-	public ArrayList<Location> getPossibleMoves(int x, int y, ChessBoard theBoard){
+	public ArrayList<Location> getPossibleMoves(ChessBoard theBoard){
+		int x = this.getLocation().getX();
+		int y = this.getLocation().getY();
 		ArrayList<Location> possibleMoves = new ArrayList<Location>();
 		//White pawns
 		if (this.getColor() == "white"){

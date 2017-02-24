@@ -10,11 +10,11 @@ public class Bishop extends Piece {
 	}
 	
 	@Override
-	public ArrayList<Location> getPossibleMoves(int x, int y, ChessBoard theBoard){
+	public ArrayList<Location> getPossibleMoves(ChessBoard theBoard){
 		boolean collision = false;
 		ArrayList<Location> possibleMoves = new ArrayList<Location>();
-		int checkx = x;
-		int checky = y;
+		int checkx = this.getLocation().getX();
+		int checky = this.getLocation().getY();
 		
 		int checkDiagonals = 0;
 		while (checkDiagonals < 4){
@@ -57,8 +57,8 @@ public class Bishop extends Piece {
 				}
 				}//End while loop for collisions
 				collision = false;
-				checkx = x;
-				checky = y;
+				checkx = this.getLocation().getX();
+				checky = this.getLocation().getY();
 				checkDiagonals++;
 			}
 		return possibleMoves;

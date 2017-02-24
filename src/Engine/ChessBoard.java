@@ -49,7 +49,7 @@ public class ChessBoard{
 	public ArrayList<Location> getPossibleMoves(int x, int y){
 		Piece thePiece = getPieceAtLocation(x,y);
 		if(thePiece != null){
-			return thePiece.getPossibleMoves(x,  y, this);
+			return thePiece.getPossibleMoves(this);
 		}
 		return null;
 	}	

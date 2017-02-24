@@ -10,11 +10,11 @@ public class Rook extends Piece {
 	}
 	
 	@Override
-	public ArrayList<Location> getPossibleMoves(int x, int y, ChessBoard theBoard){
+	public ArrayList<Location> getPossibleMoves(ChessBoard theBoard){
 		boolean collision = false;
 		ArrayList<Location> possibleMoves = new ArrayList<Location>();
-		int checkx = x;
-		int checky = y;
+		int checkx = this.getLocation().getX();
+		int checky = this.getLocation().getY();
 		
 		int checkRows = 0;
 		while (checkRows < 4){
@@ -53,8 +53,8 @@ public class Rook extends Piece {
 				}
 			}//Done checking one direction, go to the next
 			collision = false;
-			checkx = x;
-			checky = y;
+			checkx = this.getLocation().getX();
+			checky = this.getLocation().getY();
 			checkRows++;
 		}//End of check
 		return possibleMoves;
