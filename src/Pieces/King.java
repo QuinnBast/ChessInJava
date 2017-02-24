@@ -68,15 +68,16 @@ public class King extends Piece {
 						this.getLocation().setY(y);
 						//is king in check at new location?
 						if(!isInCheck(theBoard)){
+							//if the king is not in check at the new location, add it
 							possibleMoves.add(new Location(x, y));
 						}
 						//move back
 						this.getLocation().setX(currx);
 						this.getLocation().setY(curry);
 					}
+					//if there is a piece at the location and it is an enemy, check if it can be captured
 					else if (theBoard.getPieceAtLocation(x, y).getColor() != this.getColor()){
-						//if it is an opponent's piece;
-						//move piece and remove opponent
+						//Save the opponent's piece
 						Piece removedPiece = theBoard.getPieceAtLocation(x, y);
 						
 						theBoard.getBoard().remove(removedPiece);
@@ -84,6 +85,7 @@ public class King extends Piece {
 						this.getLocation().setY(y);
 						//is king in check at new location?
 						if(!isInCheck(theBoard)){
+							//if the king can safely capture the other piece, add this square to possible locations
 							possibleMoves.add(new Location(x, y));
 						}
 						//move back and add removed piece back
@@ -99,11 +101,14 @@ public class King extends Piece {
 	
 	private boolean isInCheck(ChessBoard theBoard){		
 		for (int i=0; i<theBoard.getBoard().size(); i++){
+			//Loop through each piece on the board.
 			Piece thePiece = theBoard.getBoard().get(i);
+			//If the piece is not the color of the king, check the locations which that piece can move to.
 			if (thePiece.getColor() != this.getColor()){
 				ArrayList<Location> temp = thePiece.getPossibleMoves(theBoard);
-				for (i=0; i<temp.size(); i++){
-					if (this.getLocation().getX() == temp.get(i).getX() || this.getLocation().getY() == temp.get(i).getY()){
+				for (int j=0; j<temp.size(); j++){
+					//for each possible location, if it can move to the king's square, the king is in check.
+					if ((this.getLocation().getX() == temp.get(j).getX()) && (this.getLocation().getY() == temp.get(j).getY())){
 						return true;
 					}
 					}

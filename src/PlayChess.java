@@ -1,4 +1,5 @@
 import Engine.ChessBoard;
+import Pieces.*;
 import gui.*;
 
 public class PlayChess {
@@ -6,9 +7,10 @@ public class PlayChess {
 	public static userGui gui = new userGui();
 	
 	public static void main(String args[]){
-		System.out.println(theBoard.getPieceAtLocation(4, 0));
-		System.out.println(theBoard.getPieceAtLocation(4, 0).getPossibleMoves(theBoard));
-		System.out.println(theBoard.getPieceAtLocation(4, 1));
-		System.out.println(theBoard.getPieceAtLocation(4, 1).getPossibleMoves(theBoard));
+		theBoard.clearBoard();
+		theBoard.getBoard().add(new King("white", 4, 4));
+		theBoard.getBoard().add(new Bishop("black", 4,5));
+		System.out.println(theBoard.getPieceAtLocation(4, 4));
+		System.out.println(theBoard.getPieceAtLocation(4, 4).getPossibleMoves(theBoard));
 	}
 }

@@ -53,5 +53,9 @@ public class ChessBoard{
 		}
 		return null;
 	}	
+	
+	public void clearBoard(){
+		this.board.clear();
+	}
 }
 	
