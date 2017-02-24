@@ -1,16 +1,18 @@
 package Pieces;
 
+import java.util.ArrayList;
+
+import Engine.ChessBoard;
+
 public abstract class Piece {
 	private String color;
 	private String name;
-	private int x;
-	private int y;
+	private Location location;
 	
 	public Piece(String color, String name, int posx, int posy){
 	this.color = color;	
 	this.name = name;
-	this.x = posx;
-	this.y = posy;
+	this.location = new Location(posx, posy);
 	}
 	
 	public String getName(){
@@ -22,15 +24,13 @@ public abstract class Piece {
 	}
 	
 	public void setLocation(int posx, int posy){
-		this.x = posx;
-		this.y = posy;		
+		this.location.setX(posx);
+		this.location.setY(posy);
 	}
 	
-	public int getXpos(){
-		return this.x;
+	public Location getLocation(){
+		return this.location;
 	}
 	
-	public int getYpos(){
-		return this.y;
-	}
+	public abstract ArrayList<Location> getPossibleMoves(int x, int y, ChessBoard board);
 }

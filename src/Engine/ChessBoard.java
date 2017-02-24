@@ -9,32 +9,32 @@ public class ChessBoard{
 	public ChessBoard(){
 		for (int i=0; i<8; i++)
 		{
-			board.add(new Pawn("white", 1, i));
-			board.add(new Pawn("black", 6, i));
+			board.add(new Pawn("white", i, 1));
+			board.add(new Pawn("black", i, 6));
 		}
-		board.add(new Rook("black", 7, 0));
-		board.add(new Knight("black", 7, 1));
-		board.add(new Bishop("black", 7, 2));
-		board.add(new Queen("black", 7, 3));
-		board.add(new King("black", 7, 4));
-		board.add(new Bishop("black", 7, 5));
-		board.add(new Knight("black", 7, 6));
+		board.add(new Rook("black", 0, 7));
+		board.add(new Knight("black", 1, 7));
+		board.add(new Bishop("black", 2, 7));
+		board.add(new Queen("black", 3, 7));
+		board.add(new King("black", 4, 7));
+		board.add(new Bishop("black", 5, 7));
+		board.add(new Knight("black", 6, 7));
 		board.add(new Rook("black", 7, 7));
 		
 		board.add(new Rook("white", 0, 0));
-		board.add(new Knight("white", 0, 1));
-		board.add(new Bishop("white", 0, 2));
-		board.add(new Queen("white", 0, 3));
-		board.add(new King("white", 0, 4));
-		board.add(new Bishop("white", 0, 5));
-		board.add(new Knight("white", 0, 6));
-		board.add(new Rook("white", 0, 7));
+		board.add(new Knight("white", 1, 0));
+		board.add(new Bishop("white", 2, 0));
+		board.add(new Queen("white", 3, 0));
+		board.add(new King("white", 4, 0));
+		board.add(new Bishop("white", 5, 0));
+		board.add(new Knight("white", 6, 0));
+		board.add(new Rook("white", 7, 0));
 	}
 	
 	public Piece getPieceAtLocation(int x, int y){
 		for(int i=0; i<board.size(); i++)
 		{
-			if (board.get(i).getXpos() == x && board.get(i).getYpos() == y)
+			if (board.get(i).getLocation().getX() == x && board.get(i).getLocation().getY() == y)
 			{
 				return board.get(i);
 			}
@@ -45,6 +45,13 @@ public class ChessBoard{
 	public ArrayList<Piece> getBoard(){
 		return board;
 	}
-
+	
+	public ArrayList<Location> getPossibleMoves(int x, int y){
+		Piece thePiece = getPieceAtLocation(x,y);
+		if(thePiece != null){
+			return thePiece.getPossibleMoves(x,  y, this);
+		}
+		return null;
+	}	
 }
 	
