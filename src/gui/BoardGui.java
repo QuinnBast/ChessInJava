@@ -1,10 +1,14 @@
 package gui;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -31,7 +35,7 @@ public class BoardGui {
 			}
 			setPreferredSize(BOARD_PANEL_DIMENSION);
 			validate();
-		}		
+		}
 	}
 	
 	public class TilePanel extends JPanel{
@@ -52,6 +56,7 @@ public class BoardGui {
 			this.posx = i;
 			this.posy = j;
 			
+			
 			setPreferredSize(TILE_PANEL_DIMENSION);
 			if (i % 2 == 0){
 				if (j % 2 == 0){
@@ -70,14 +75,6 @@ public class BoardGui {
 					setBackground(Color.lightGray);
 				}
 			}
-			
-			//Not sure why this image isn't showing up on the chess board
-			//The image path is correct and loading properly
-			JLabel thumb = new JLabel("");
-			ImageIcon icon = null;
-			java.net.URL imgURL = getClass().getResource("/Images/WhitePawn.png");
-			thumb.setIcon(icon);
-			add(thumb);
 		}
 	}
 	

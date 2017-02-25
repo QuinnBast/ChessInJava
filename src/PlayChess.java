@@ -8,9 +8,9 @@ public class PlayChess {
 	
 	public static void main(String args[]){
 		theBoard.clearBoard();
-		theBoard.getBoard().add(new King("white", 4, 4));
-		theBoard.getBoard().add(new Bishop("black", 4,5));
-		System.out.println(theBoard.getPieceAtLocation(4, 4));
-		System.out.println(theBoard.getPieceAtLocation(4, 4).getPossibleMoves(theBoard));
+		theBoard.getBoard().add(new Rook("white", 2, 3));
+		theBoard.getBoard().add(new King("black", 3, 4));
+		System.out.println(theBoard.getPieceAtLocation(2, 3));
+		System.out.println(theBoard.getPieceAtLocation(3, 4).getPossibleMoves(theBoard));
 	}
 }
