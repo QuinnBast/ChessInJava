@@ -7,11 +7,14 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import Engine.ChessBoard;
 
 public class BoardGui {
 	private final BoardPanel boardPanel = new BoardPanel();
@@ -19,23 +22,35 @@ public class BoardGui {
 	private static final Dimension TILE_PANEL_DIMENSION = new Dimension(10,10);
 	
 	public BoardGui(){
-		
+		//constructor for BoardGui
+	}
+	
+	public BoardPanel getPanel(){
+		return this.boardPanel;
 	}
 	
 	public class BoardPanel extends JPanel{
+		private ArrayList<TilePanel> thePanels = new ArrayList<TilePanel>();
 		
 		BoardPanel(){
+			//constructor for boardpanel
 			super(new GridLayout(8,8));
 			for(int i=0; i<8; i++){
 				//Add a new tile panel for each square on the board.
 				for(int j=0; j<8; j++){
-					add(new TilePanel(i, j));
-					
+					TilePanel newPanel = new TilePanel(j, 7-i);
+					thePanels.add(newPanel);
+					add(newPanel);
 				}
 			}
 			setPreferredSize(BOARD_PANEL_DIMENSION);
 			validate();
 		}
+		
+		public ArrayList<TilePanel> getTiles(){
+			return this.thePanels;
+		}
+		
 	}
 	
 	public class TilePanel extends JPanel{
@@ -50,12 +65,12 @@ public class BoardGui {
 			return this.posy;
 		}
 		
-		TilePanel(int i, int j){			
+		TilePanel(int i, int j){
+			//constructor for the TilePanels
 			super(new GridBagLayout());
 			
 			this.posx = i;
 			this.posy = j;
-			
 			
 			setPreferredSize(TILE_PANEL_DIMENSION);
 			if (i % 2 == 0){
@@ -81,6 +96,5 @@ public class BoardGui {
 	public BoardPanel getBoardBackground(){
 		return boardPanel;
 	}
-	
 
 }

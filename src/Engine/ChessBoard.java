@@ -15,8 +15,8 @@ public class ChessBoard{
 		board.add(new Rook("black", 0, 7));
 		board.add(new Knight("black", 1, 7));
 		board.add(new Bishop("black", 2, 7));
-		board.add(new Queen("black", 3, 7));
-		board.add(new King("black", 4, 7));
+		board.add(new Queen("black", 4, 7));
+		board.add(new King("black", 3, 7));
 		board.add(new Bishop("black", 5, 7));
 		board.add(new Knight("black", 6, 7));
 		board.add(new Rook("black", 7, 7));
