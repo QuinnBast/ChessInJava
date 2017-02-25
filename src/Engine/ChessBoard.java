@@ -57,5 +57,26 @@ public class ChessBoard{
 	public void clearBoard(){
 		this.board.clear();
 	}
+	
+	public boolean move(Piece thePiece, Location here){
+		ArrayList<Location> pieceLocations = thePiece.getPossibleMoves(this);
+		for (int i=0; i<pieceLocations.size(); i++){
+			//loop through all of the piece's possible locations
+			
+			if (here.getX() == pieceLocations.get(i).getX() && here.getY() == pieceLocations.get(i).getY()){
+				//If you have selected a valid location to move to:
+				//is there an opponent's piece there to capture?
+				if (this.getPieceAtLocation(here.getX(), here.getY()) != null){
+					//there is a piece there, lets remove it!
+					this.getBoard().remove(this.getPieceAtLocation(here.getX(), here.getY()));
+				}
+				//move the piece and return
+				thePiece.setLocation(here.getX(), here.getY());
+				return true;
+			}
+		}
+		//The location you have selected is not possible to move to.
+		return false;
+	}
 }
 	

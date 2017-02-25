@@ -1,6 +1,9 @@
 package gui;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -20,13 +23,14 @@ public class userGui {
 	//Create an object for the window
 	private final JFrame window = new JFrame();
 	private MenuGui menuGui = new MenuGui();
-	private BoardGui boardGui = new BoardGui();
+	private BoardGui boardGui;
 	
 	//constants for the dimensions
 	private final static Dimension OUTER_FRAME_DIMENSION = new Dimension(600,600);
 
 	//Constructor to set up the window
-	public userGui(){
+	public userGui(ChessBoard theBoard){
+		boardGui = new BoardGui(theBoard);
 		makeWindow();
 	}
 	
@@ -48,34 +52,38 @@ public class userGui {
 	
 	public void updateBoard(ChessBoard theBoard){
 		ArrayList<TilePanel> theTiles = this.getBoard().getPanel().getTiles();
-		TilePanel giveIcon = null;
-		for(int i=0; i<theBoard.getBoard().size(); i++){
-			//For each piece on the board, set its image icon to that tile.
-			for(int j=0; j<theTiles.size(); j++){
-				int boardx = theBoard.getBoard().get(i).getLocation().getX();
-				int boardy = theBoard.getBoard().get(i).getLocation().getY();
-				int tilex = theTiles.get(j).getGridXPos();
-				int tiley = theTiles.get(j).getGridYPos();
+		for (int i=0; i<theTiles.size(); i++){
+			//loop through the tiles
+			for (int j=0; j<theBoard.getBoard().size(); j++){
+				int boardx = theBoard.getBoard().get(j).getLocation().getX();
+				int boardy = theBoard.getBoard().get(j).getLocation().getY();
+				int tilex = theTiles.get(i).getGridXPos();
+				int tiley = theTiles.get(i).getGridYPos();
 						
+				//if there is a piece at the tile location,
 				if (tilex == boardx	&& tiley == boardy){
-					giveIcon = theTiles.get(j);
+					//we need to set the tile to be linked to a piece.
+					theTiles.get(i).setPiece(theBoard.getBoard().get(j)); //set the tile to have this piece
 					break;
+				} else {theTiles.get(i).setPiece(null);}
+			}
+			
+			if (theTiles.get(i).getPiece() != null){
+				//assign in an icon
+				BufferedImage img = null;
+				try{
+					img = ImageIO.read(getClass().getResource(theTiles.get(i).getPiece().getImagePath()));
+				}catch(IOException e){
+					e.printStackTrace();
+				}
+				ImageIcon icon = new ImageIcon(img);
+				JLabel label = new JLabel();
+				label.setIcon(icon);
+				theTiles.get(i).add(label);
+				label.repaint();
 				}
 			}
-			//Column major order
-			BufferedImage img = null;
-			try{
-				img = ImageIO.read(getClass().getResource(theBoard.getBoard().get(i).getImagePath()));
-			}catch(IOException e){
-				e.printStackTrace();
+			this.window.validate();
+			this.window.repaint();
 			}
-			ImageIcon icon = new ImageIcon(img);
-			JLabel label = new JLabel();
-			label.setIcon(icon);
-			giveIcon.add(label);
-			label.repaint();
-			}
-		this.window.validate();
-		this.window.repaint();
 	}
-}
