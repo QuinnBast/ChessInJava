@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
@@ -28,6 +27,8 @@ public class BoardGui {
 	public BoardGui(ChessBoard theBoard){
 		//constructor for BoardGui
 		boardPanel = new BoardPanel(theBoard);
+		boardPanel.validate();
+		boardPanel.repaint();
 	}
 	
 	public BoardPanel getPanel(){
@@ -39,6 +40,7 @@ public class BoardGui {
 		
 		//checks for clicking a piece
 		private TilePanel firstPanel;
+		private Color firstPanelColor;
 		private ChessBoard theBoard;
 		
 		BoardPanel(ChessBoard aBoard){
@@ -54,18 +56,20 @@ public class BoardGui {
 						@Override
 						public void mouseClicked(final MouseEvent e){
 							TilePanel clickedPanel = (TilePanel) e.getComponent();
+							//if this is the first square that you have clicked,
 							if (firstPanel == null){
 								if (clickedPanel.getPiece() != null){
 									firstPanel = clickedPanel;
+									firstPanelColor = clickedPanel.getBackground();
+									firstPanel.setBackground(Color.ORANGE);
 								} else {firstPanel = null;}
 							} else{
 								//We are chosing where to move the piece
 								theBoard.move(firstPanel.getPiece(), new Location(clickedPanel.posx, clickedPanel.posy));
+								firstPanel.setBackground(firstPanelColor);
 								firstPanel = null;
 							}
-							//need to update the window.
-							System.out.println("clickedx: " + clickedPanel.posx + "clickedy: " + clickedPanel.posy);
-							System.out.println("After move-if possible-Piece at location: " + theBoard.getPieceAtLocation(clickedPanel.posx, clickedPanel.posy));
+							updateBoard(theBoard);
 						}
 
 						@Override
@@ -101,11 +105,36 @@ public class BoardGui {
 			}
 			setPreferredSize(BOARD_PANEL_DIMENSION);
 			validate();
+			repaint();
 		}
 		
 		public ArrayList<TilePanel> getTiles(){
 			return this.thePanels;
 		}
+		
+		public void updateBoard(ChessBoard theBoard){
+			ArrayList<TilePanel> theTiles = getTiles();
+			for (int i=0; i<theTiles.size(); i++){
+				//loop through the tiles
+				for (int j=0; j<theBoard.getBoard().size(); j++){
+					int boardx = theBoard.getBoard().get(j).getLocation().getX();
+					int boardy = theBoard.getBoard().get(j).getLocation().getY();
+					int tilex = theTiles.get(i).getGridXPos();
+					int tiley = theTiles.get(i).getGridYPos();
+							
+					//if there is a piece at the tile location,
+					if (tilex == boardx	&& tiley == boardy){
+						//we need to set the tile to be linked to a piece.
+						theTiles.get(i).setPiece(theBoard.getBoard().get(j)); //set the tile to have this piece
+						break;
+					} else {theTiles.get(i).setPiece(null);}
+				}
+				
+				theTiles.get(i).setImage();
+				}
+				revalidate();
+				repaint();
+			}
 		
 	}
 	
@@ -133,10 +162,13 @@ public class BoardGui {
 				theLabel.repaint();
 			}
 			else{this.theLabel.setIcon(null);}
+			revalidate();
+			repaint();
 		}
 		
 		public void setPiece(Piece piece){
 			this.pieceAtTile = piece;
+			setImage();
 		}
 		
 		public int getGridXPos(){
