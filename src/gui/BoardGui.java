@@ -113,9 +113,26 @@ public class BoardGui {
 		private int posx;
 		private int posy;
 		private Piece pieceAtTile = null;
+		private JLabel theLabel = new JLabel();
 		
 		public Piece getPiece(){
 			return pieceAtTile;
+		}
+		
+		public void setImage(){
+			//assign in an icon
+			if (this.pieceAtTile != null){
+				BufferedImage img = null;
+				try{
+					img = ImageIO.read(getClass().getResource(this.pieceAtTile.getImagePath()));
+				}catch(IOException e){
+					e.printStackTrace();
+				}
+				ImageIcon icon = new ImageIcon(img);
+				this.theLabel.setIcon(icon);
+				theLabel.repaint();
+			}
+			else{this.theLabel.setIcon(null);}
 		}
 		
 		public void setPiece(Piece piece){
@@ -136,6 +153,7 @@ public class BoardGui {
 			
 			this.posx = i;
 			this.posy = j;
+			this.add(theLabel);
 			
 			setPreferredSize(TILE_PANEL_DIMENSION);
 			if (i % 2 == 0){

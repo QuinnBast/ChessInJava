@@ -68,20 +68,7 @@ public class userGui {
 				} else {theTiles.get(i).setPiece(null);}
 			}
 			
-			if (theTiles.get(i).getPiece() != null){
-				//assign in an icon
-				BufferedImage img = null;
-				try{
-					img = ImageIO.read(getClass().getResource(theTiles.get(i).getPiece().getImagePath()));
-				}catch(IOException e){
-					e.printStackTrace();
-				}
-				ImageIcon icon = new ImageIcon(img);
-				JLabel label = new JLabel();
-				label.setIcon(icon);
-				theTiles.get(i).add(label);
-				label.repaint();
-				}
+			theTiles.get(i).setImage();
 			}
 			this.window.validate();
 			this.window.repaint();
