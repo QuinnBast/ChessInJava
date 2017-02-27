@@ -24,9 +24,9 @@ public class BoardGui {
 	private static final Dimension BOARD_PANEL_DIMENSION = new Dimension(50,50);
 	private static final Dimension TILE_PANEL_DIMENSION = new Dimension(10,10);
 	
-	public BoardGui(ChessBoard theBoard){
+	BoardGui(){
 		//constructor for BoardGui
-		boardPanel = new BoardPanel(theBoard);
+		boardPanel = new BoardPanel();
 		boardPanel.validate();
 		boardPanel.repaint();
 	}
@@ -41,12 +41,10 @@ public class BoardGui {
 		//checks for clicking a piece
 		private TilePanel firstPanel;
 		private Color firstPanelColor;
-		private ChessBoard theBoard;
 		
-		BoardPanel(ChessBoard aBoard){
+		BoardPanel(){
 			//constructor for boardpanel
 			super(new GridLayout(8,8));
-			theBoard = aBoard;
 			
 			for(int i=0; i<8; i++){
 				//Add a new tile panel for each square on the board.
@@ -65,11 +63,11 @@ public class BoardGui {
 								} else {firstPanel = null;}
 							} else{
 								//We are chosing where to move the piece
-								theBoard.move(firstPanel.getPiece(), new Location(clickedPanel.posx, clickedPanel.posy));
+								ChessBoard.move(firstPanel.getPiece(), new Location(clickedPanel.posx, clickedPanel.posy));
 								firstPanel.setBackground(firstPanelColor);
 								firstPanel = null;
 							}
-							updateBoard(theBoard);
+							updateBoard();
 						}
 
 						@Override
@@ -95,7 +93,6 @@ public class BoardGui {
 							// TODO Auto-generated method stub
 							
 						}
-					
 				});
 					
 					
@@ -104,27 +101,27 @@ public class BoardGui {
 				}
 			}
 			setPreferredSize(BOARD_PANEL_DIMENSION);
-			updateBoard(theBoard);
+			updateBoard();
 		}
 		
 		public ArrayList<TilePanel> getTiles(){
 			return this.thePanels;
 		}
 		
-		public void updateBoard(ChessBoard theBoard){
+		public void updateBoard(){
 			ArrayList<TilePanel> theTiles = getTiles();
 			for (int i=0; i<theTiles.size(); i++){
 				//loop through the tiles
-				for (int j=0; j<theBoard.getBoard().size(); j++){
-					int boardx = theBoard.getBoard().get(j).getLocation().getX();
-					int boardy = theBoard.getBoard().get(j).getLocation().getY();
+				for (int j=0; j<ChessBoard.board.size(); j++){
+					int boardx = ChessBoard.board.get(j).getLocation().getX();
+					int boardy = ChessBoard.board.get(j).getLocation().getY();
 					int tilex = theTiles.get(i).getGridXPos();
 					int tiley = theTiles.get(i).getGridYPos();
 							
 					//if there is a piece at the tile location,
 					if (tilex == boardx	&& tiley == boardy){
 						//we need to set the tile to be linked to a piece.
-						theTiles.get(i).setPiece(theBoard.getBoard().get(j)); //set the tile to have this piece
+						theTiles.get(i).setPiece(ChessBoard.board.get(j)); //set the tile to have this piece
 						break;
 					} else {theTiles.get(i).setPiece(null);}
 				}

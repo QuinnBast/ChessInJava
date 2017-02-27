@@ -10,7 +10,7 @@ public class Rook extends Piece {
 	}
 	
 	@Override
-	public ArrayList<Location> getPossibleMoves(ChessBoard theBoard){
+	public ArrayList<Location> getPossibleMoves(){
 		boolean collision = false;
 		ArrayList<Location> possibleMoves = new ArrayList<Location>();
 		int checkx = this.getLocation().getX();
@@ -35,12 +35,12 @@ public class Rook extends Piece {
 					break;
 				}
 				if ((checkx < 8) && (checky < 8) && (checkx >= 0) && (checky >= 0)){
-					if (theBoard.getPieceAtLocation(checkx,checky)==null ){
+					if (ChessBoard.getPieceAtLocation(checkx,checky)==null ){
 						possibleMoves.add(new Location(checkx, checky));
 					}
 					else{
 					//The rook can still capture the piece if it is of the opposing color.
-						if (this.getColor() != theBoard.getPieceAtLocation(checkx,checky).getColor()){
+						if (this.getColor() != ChessBoard.getPieceAtLocation(checkx,checky).getColor()){
 							possibleMoves.add(new Location(checkx, checky));
 						}
 						//But the rook cannot jump pieces.

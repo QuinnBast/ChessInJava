@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import Pieces.*;
 
 public class ChessBoard{
-	private ArrayList<Piece> board = new ArrayList<Piece>();
+	public static ArrayList<Piece> board = new ArrayList<Piece>();
+	private GameState theState = new GameState();
 	
 	public ChessBoard(){
 		for (int i=0; i<8; i++)
@@ -31,7 +32,7 @@ public class ChessBoard{
 		board.add(new Rook("white", 7, 0));
 	}
 	
-	public Piece getPieceAtLocation(int x, int y){
+	public static Piece getPieceAtLocation(int x, int y){
 		for(int i=0; i<board.size(); i++)
 		{
 			if (board.get(i).getLocation().getX() == x && board.get(i).getLocation().getY() == y)
@@ -42,33 +43,33 @@ public class ChessBoard{
 		return null;
 	}
 	
-	public ArrayList<Piece> getBoard(){
+	public static ArrayList<Piece> getBoard(){
 		return board;
 	}
 	
 	public ArrayList<Location> getPossibleMoves(int x, int y){
 		Piece thePiece = getPieceAtLocation(x,y);
 		if(thePiece != null){
-			return thePiece.getPossibleMoves(this);
+			return thePiece.getPossibleMoves();
 		}
 		return null;
 	}	
 	
 	public void clearBoard(){
-		this.board.clear();
+		ChessBoard.board.clear();
 	}
 	
-	public boolean move(Piece thePiece, Location here){
-		ArrayList<Location> pieceLocations = thePiece.getPossibleMoves(this);
+	public static boolean move(Piece thePiece, Location here){
+		ArrayList<Location> pieceLocations = thePiece.getPossibleMoves();
 		for (int i=0; i<pieceLocations.size(); i++){
 			//loop through all of the piece's possible locations
 			
 			if (here.getX() == pieceLocations.get(i).getX() && here.getY() == pieceLocations.get(i).getY()){
 				//If you have selected a valid location to move to:
 				//is there an opponent's piece there to capture?
-				if (this.getPieceAtLocation(here.getX(), here.getY()) != null){
+				if (getPieceAtLocation(here.getX(), here.getY()) != null){
 					//there is a piece there, lets remove it!
-					this.getBoard().remove(this.getPieceAtLocation(here.getX(), here.getY()));
+					board.remove(getPieceAtLocation(here.getX(), here.getY()));
 				}
 				//move the piece and return
 				thePiece.setLocation(here.getX(), here.getY());
@@ -77,6 +78,10 @@ public class ChessBoard{
 		}
 		//The location you have selected is not possible to move to.
 		return false;
+	}
+	
+	public GameState getGameState(){
+		return this.theState;
 	}
 }
 	

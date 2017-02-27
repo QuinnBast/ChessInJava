@@ -10,7 +10,7 @@ public class King extends Piece {
 	}
 	
 	@Override
-	public ArrayList<Location> getPossibleMoves(ChessBoard theBoard){
+	public ArrayList<Location> getPossibleMoves(){
 		
 		ArrayList<Location> possibleMoves = new ArrayList<Location>();
 		
@@ -62,12 +62,12 @@ public class King extends Piece {
 				//move, check if in check, move back
 				//capture opponent(if exist), check in check, move back
 				if ((x < 8) && (y < 8)&& (x >= 0) && (y >= 0)){
-					if (theBoard.getPieceAtLocation(x, y) == null){
+					if (ChessBoard.getPieceAtLocation(x, y) == null){
 						//move piece
 						this.getLocation().setX(x);
 						this.getLocation().setY(y);
 						//is king in check at new location?
-						if(!isInCheck(theBoard)){
+						if(!isInCheck()){
 							//if the king is not in check at the new location, add it
 							possibleMoves.add(new Location(x, y));
 						}
@@ -76,22 +76,22 @@ public class King extends Piece {
 						this.getLocation().setY(curry);
 					}
 					//if there is a piece at the location and it is an enemy, check if it can be captured
-					else if (theBoard.getPieceAtLocation(x, y).getColor() != this.getColor()){
+					else if (ChessBoard.getPieceAtLocation(x, y).getColor() != this.getColor()){
 						//Save the opponent's piece
-						Piece removedPiece = theBoard.getPieceAtLocation(x, y);
+						Piece removedPiece = ChessBoard.getPieceAtLocation(x, y);
 						
-						theBoard.getBoard().remove(removedPiece);
+						ChessBoard.board.remove(removedPiece);
 						this.getLocation().setX(x);
 						this.getLocation().setY(y);
 						//is king in check at new location?
-						if(!isInCheck(theBoard)){
+						if(!isInCheck()){
 							//if the king can safely capture the other piece, add this square to possible locations
 							possibleMoves.add(new Location(x, y));
 						}
 						//move back and add removed piece back
 						this.getLocation().setX(currx);
 						this.getLocation().setY(curry);
-						theBoard.getBoard().add(removedPiece);
+						ChessBoard.board.add(removedPiece);
 					}
 				}
 			checksquares++;
@@ -99,13 +99,13 @@ public class King extends Piece {
 		return possibleMoves;
 	}
 	
-	private boolean isInCheck(ChessBoard theBoard){		
-		for (int i=0; i<theBoard.getBoard().size(); i++){
+	private boolean isInCheck(){		
+		for (int i=0; i<ChessBoard.board.size(); i++){
 			//Loop through each piece on the board.
-			Piece thePiece = theBoard.getBoard().get(i);
+			Piece thePiece = ChessBoard.board.get(i);
 			//If the piece is not the color of the king, check the locations which that piece can move to.
 			if (thePiece.getColor() != this.getColor()){
-				ArrayList<Location> temp = thePiece.getPossibleMoves(theBoard);
+				ArrayList<Location> temp = thePiece.getPossibleMoves();
 				for (int j=0; j<temp.size(); j++){
 					//for each possible location, if it can move to the king's square, the king is in check.
 					if ((this.getLocation().getX() == temp.get(j).getX()) && (this.getLocation().getY() == temp.get(j).getY())){

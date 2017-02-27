@@ -17,8 +17,8 @@ public class userGui {
 	private final static Dimension OUTER_FRAME_DIMENSION = new Dimension(600,600);
 
 	//Constructor to set up the window
-	public userGui(ChessBoard theBoard){
-		boardGui = new BoardGui(theBoard);
+	public userGui(){
+		boardGui = new BoardGui();
 		makeWindow();
 	}
 	

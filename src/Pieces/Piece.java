@@ -42,5 +42,5 @@ public abstract class Piece {
 		return this.location;
 	}
 	
-	public abstract ArrayList<Location> getPossibleMoves(ChessBoard board);
+	public abstract ArrayList<Location> getPossibleMoves();
 }
