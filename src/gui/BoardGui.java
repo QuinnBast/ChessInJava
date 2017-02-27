@@ -104,8 +104,7 @@ public class BoardGui {
 				}
 			}
 			setPreferredSize(BOARD_PANEL_DIMENSION);
-			validate();
-			repaint();
+			updateBoard(theBoard);
 		}
 		
 		public ArrayList<TilePanel> getTiles(){

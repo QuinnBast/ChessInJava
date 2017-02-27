@@ -1,8 +1,5 @@
-import java.util.ArrayList;
-
 import Engine.ChessBoard;
 import Engine.GameState;
-import Pieces.Piece;
 import gui.*;
 
 public class PlayChess {
