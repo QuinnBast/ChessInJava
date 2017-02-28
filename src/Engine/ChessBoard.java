@@ -114,5 +114,24 @@ public class ChessBoard{
 		board.add(new Knight("white", 6, 0));
 		board.add(new Rook("white", 7, 0));
 	}
+	
+	public ArrayList<Location> getPlayersPossibleMoves(String color){
+		ArrayList<Location> playersMoves = new ArrayList<Location>();
+		for (int i=0; i<board.size(); i++){
+			if (board.get(i).getName() == "King"){
+				King playerKing = (King)board.get(i);
+				if(playerKing.isInCheck()){
+					//if the player's king is in check, there are a limited amount of moves he can perform.
+					//Need to check moving each piece to all of their possible locations and then check if that prevents the king being in check
+					System.out.println("Your king is in check");
+					return null;
+				}
+			}
+			if (board.get(i).getColor() == color){
+				playersMoves.addAll(board.get(i).getPossibleMoves());
+			}
+		}
+		return playersMoves;
+	}
 }
 	
