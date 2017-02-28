@@ -10,6 +10,10 @@ public abstract class Piece {
 	private Location location;
 	private String imagePath;
 	
+	public Piece(){
+		
+	}
+	
 	public Piece(String color, String name, int posx, int posy){
 	this.color = color;	
 	this.name = name;

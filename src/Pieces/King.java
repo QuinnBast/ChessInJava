@@ -101,7 +101,7 @@ public class King extends Piece {
 		return possibleMoves;
 	}
 	
-	private boolean isInCheck(){		
+	public boolean isInCheck(){		
 		for (int i=0; i<ChessBoard.board.size(); i++){
 			//Loop through each piece on the board.
 			Piece thePiece = ChessBoard.board.get(i);

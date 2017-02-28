@@ -5,7 +5,7 @@ import Pieces.*;
 
 public class ChessBoard{
 	public static ArrayList<Piece> board = new ArrayList<Piece>();
-	private GameState theState = new GameState();
+	private static GameState theState = new GameState();
 	
 	public ChessBoard(){
 		newGame();
@@ -39,43 +39,47 @@ public class ChessBoard{
 	}
 	
 	public static boolean move(Piece thePiece, Location here){
-		ArrayList<Location> pieceLocations = thePiece.getPossibleMoves();
-		for (int i=0; i<pieceLocations.size(); i++){
-			//loop through all of the piece's possible locations
-			
-			if (here.getX() == pieceLocations.get(i).getX() && here.getY() == pieceLocations.get(i).getY()){
-				//is there an opponent's piece there to capture?
-				if (getPieceAtLocation(here.getX(), here.getY()) != null){
-					//there is a piece there, lets remove it!
-					board.remove(getPieceAtLocation(here.getX(), here.getY()));
-				}
-				//move the piece and return
-				thePiece.setLocation(here.getX(), here.getY());
+		if (theState.getCurrentPlayer() == thePiece.getColor()){
+			ArrayList<Location> pieceLocations = thePiece.getPossibleMoves();
+			for (int i=0; i<pieceLocations.size(); i++){
+				//loop through all of the piece's possible locations
 				
-				//If you have selected a valid location to move to:
-				//check if the piece is a king. Check if the king is trying to castle				
-				if (thePiece.getName() == "King"){
-					if (pieceLocations.get(i).isCastling()){
-						//check the direction that the king is castling
-						int xUp1 = here.getX() + 1;
-						if (xUp1 == 3){
-							//the King is white castling left
-							getPieceAtLocation(0,0).setLocation(3, 0);
-						} else if (xUp1 == 7){
-							//the king is white castling right
-							getPieceAtLocation(7,0).setLocation(5, 0);
-						} else if (xUp1 == 6){
-							//The king is black castling (right to white) left
-							getPieceAtLocation(7,7).setLocation(4, 7);
-						} else if (xUp1 == 2){
-							//the king is black castling (left to white) right
-							getPieceAtLocation(0,7).setLocation(2, 7);
-						}
+				if (here.getX() == pieceLocations.get(i).getX() && here.getY() == pieceLocations.get(i).getY()){
+					//is there an opponent's piece there to capture?
+					if (getPieceAtLocation(here.getX(), here.getY()) != null){
+						//there is a piece there, lets remove it!
+						board.remove(getPieceAtLocation(here.getX(), here.getY()));
 					}
-					King theKing = (King) thePiece;
-					theKing.setHasMoved();
+					//move the piece and return
+					thePiece.setLocation(here.getX(), here.getY());
+					
+					//If you have selected a valid location to move to:
+					//check if the piece is a king. Check if the king is trying to castle				
+					if (thePiece.getName() == "King"){
+						if (pieceLocations.get(i).isCastling()){
+							//check the direction that the king is castling
+							int xUp1 = here.getX() + 1;
+							if (xUp1 == 3){
+								//the King is white castling left
+								getPieceAtLocation(0,0).setLocation(3, 0);
+							} else if (xUp1 == 7){
+								//the king is white castling right
+								getPieceAtLocation(7,0).setLocation(5, 0);
+							} else if (xUp1 == 6){
+								//The king is black castling (right to white) left
+								getPieceAtLocation(7,7).setLocation(4, 7);
+							} else if (xUp1 == 2){
+								//the king is black castling (left to white) right
+								getPieceAtLocation(0,7).setLocation(2, 7);
+							}
+						}
+						King theKing = (King) thePiece;
+						theKing.setHasMoved();
+					}
+					theState.switchPlayer();
+					System.out.println(isGameOver());
+					return true;
 				}
-				return true;
 			}
 		}
 		//The location you have selected is not possible to move to.
