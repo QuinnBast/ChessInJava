@@ -77,7 +77,6 @@ public class ChessBoard{
 						theKing.setHasMoved();
 					}
 					theState.switchPlayer();
-					System.out.println(isGameOver());
 					return true;
 				}
 			}
