@@ -65,7 +65,7 @@ public class BoardGui {
 								} else {firstPanel = null;}
 							} else{
 								//We are chosing where to move the piece
-								ChessBoard.move(firstPanel.getPiece(), new Location(clickedPanel.posx, clickedPanel.posy));
+								firstPanel.getPiece().move(new Location(clickedPanel.posx, clickedPanel.posy));
 								firstPanel.setBackground(firstPanelColor);
 								firstPanel = null;
 							}

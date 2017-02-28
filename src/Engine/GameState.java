@@ -1,5 +1,7 @@
 package Engine;
 
+import Pieces.King;
+
 public class GameState {
 	private String currentMove;
 	private String gameState;
@@ -14,6 +16,13 @@ public class GameState {
 	}
 	
 	public void switchPlayer(){
+		King opposingKing = ChessBoard.getKing(currentMove);
+		if(opposingKing.isInCheck()){
+			this.currentMove = (this.currentMove == "white") ? "black" : "white";
+			gameState = currentMove + " Wins";
+			System.out.println(gameState);
+			return;
+		}
 		this.currentMove = (this.currentMove == "white") ? "black" : "white";
 	}
 }
