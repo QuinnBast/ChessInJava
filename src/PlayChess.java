@@ -1,6 +1,6 @@
 import Engine.ChessBoard;
 import Engine.GameState;
-import gui.*;
+import gui.userGui;
 
 public class PlayChess {
 	public static ChessBoard theBoard = new ChessBoard();
