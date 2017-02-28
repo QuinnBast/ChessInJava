@@ -3,6 +3,7 @@ package Pieces;
 public class Location {
 	private int x;
 	private int y;
+	private boolean isCastling = false;
 	
 	public Location(int x, int y){
 		this.x = x;
@@ -23,6 +24,14 @@ public class Location {
 	
 	public void setY(int y){
 		this.y = y;
+	}
+	
+	public boolean isCastling(){
+		return isCastling;
+	}
+	
+	public void setIsCastling(){
+		isCastling = true;
 	}
 
 }

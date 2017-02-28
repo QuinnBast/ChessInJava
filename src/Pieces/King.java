@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import Engine.ChessBoard;
 
 public class King extends Piece {
+	private boolean hasMoved = false;
+	
 	public King(String owner, int posx, int posy){
 		super(owner, "King", posx, posy);
 	}
@@ -57,10 +59,7 @@ public class King extends Piece {
 					break;
 					
 				}
-				//check x and y
-				//check if collision with own piece,
-				//move, check if in check, move back
-				//capture opponent(if exist), check in check, move back
+				//Check the bound of the board
 				if ((x < 8) && (y < 8)&& (x >= 0) && (y >= 0)){
 					if (ChessBoard.getPieceAtLocation(x, y) == null){
 						//move piece
@@ -96,6 +95,9 @@ public class King extends Piece {
 				}
 			checksquares++;
 		}
+		if (canCastle() != null){
+			possibleMoves.addAll(canCastle());
+		}
 		return possibleMoves;
 	}
 	
@@ -116,5 +118,50 @@ public class King extends Piece {
 			}
 		return false;
 		}
+	
+	public ArrayList<Location> canCastle(){
+		ArrayList<Location> possibleCastle = new ArrayList<Location>();
+		if (hasMoved == false){
+			if (getColor() == "white"){
+				if(ChessBoard.getPieceAtLocation(1, 0) == null &&
+					ChessBoard.getPieceAtLocation(2, 0) == null &&
+					ChessBoard.getPieceAtLocation(3, 0) == null &&
+					ChessBoard.getPieceAtLocation(0, 0).getName() == "Rook"){
+						Location temp = new Location(2, 0);
+						temp.setIsCastling();
+						possibleCastle.add(temp);
+				}
+				if(ChessBoard.getPieceAtLocation(5, 0) == null &&
+				   ChessBoard.getPieceAtLocation(6, 0) == null &&
+				   ChessBoard.getPieceAtLocation(7, 0).getName() == "Rook"){
+						Location temp = new Location(6, 0);
+						temp.setIsCastling();
+						possibleCastle.add(temp);
+				}
+				return possibleCastle;
+			} else {
+				if(ChessBoard.getPieceAtLocation(1, 7) == null &&
+					ChessBoard.getPieceAtLocation(2, 7) == null &&
+					ChessBoard.getPieceAtLocation(7, 7).getName() == "Rook"){
+						Location temp = new Location(1, 7);
+						temp.setIsCastling();
+						possibleCastle.add(temp);
+				}
+				if(ChessBoard.getPieceAtLocation(6, 7) == null &&
+				   ChessBoard.getPieceAtLocation(5, 7) == null &&
+				   ChessBoard.getPieceAtLocation(4, 7) == null &&
+				   ChessBoard.getPieceAtLocation(7, 7).getName() == "Rook"){
+						Location temp = new Location(5, 7);
+						temp.setIsCastling();
+						possibleCastle.add(temp);
+					}
+				return possibleCastle;
+			}
+		} else return null;
+	}
+	
+	public void setHasMoved(){
+		hasMoved = true;
+	}
 	
 }

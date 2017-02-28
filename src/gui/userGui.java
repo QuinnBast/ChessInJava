@@ -10,15 +10,14 @@ import Engine.ChessBoard;
 public class userGui {
 	//Create an object for the window
 	private final JFrame window = new JFrame();
-	private MenuGui menuGui = new MenuGui();
-	private BoardGui boardGui;
+	private BoardGui boardGui = new BoardGui();
+	private MenuGui menuGui = new MenuGui(boardGui);
 	
 	//constants for the dimensions
 	private final static Dimension OUTER_FRAME_DIMENSION = new Dimension(600,600);
 
 	//Constructor to set up the window
 	public userGui(){
-		boardGui = new BoardGui();
 		makeWindow();
 	}
 	
@@ -34,7 +33,7 @@ public class userGui {
 		this.window.setVisible(true);
 	}
 	
-	private BoardGui getBoard(){
-		return this.boardGui;
+	public JFrame getWindow(){
+		return window;
 	}
 }

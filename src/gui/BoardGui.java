@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
@@ -36,6 +37,7 @@ public class BoardGui {
 	}
 	
 	public class BoardPanel extends JPanel{
+
 		private ArrayList<TilePanel> thePanels = new ArrayList<TilePanel>();
 		
 		//checks for clicking a piece

@@ -7,12 +7,16 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import Engine.ChessBoard;
+
 public class MenuGui {
 	//Object for the menu bar
 	final JMenuBar menuBar = new JMenuBar();
+	BoardGui board;
 	
-	public MenuGui(){
+	public MenuGui(BoardGui theBoard){
 		menuBar.add(createFileMenu());
+		board = theBoard;
 	}
 	
 	private JMenu createFileMenu(){
@@ -23,7 +27,8 @@ public class MenuGui {
 			@Override
 			public void actionPerformed(ActionEvent e){
 				//This is what happens when you click the "New Game" Button
-				System.out.println("New Game Started");
+				ChessBoard.newGame();
+				board.getPanel().updateBoard();
 			}
 		});
 		fileMenu.add(newGame);
