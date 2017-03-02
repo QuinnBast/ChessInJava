@@ -47,6 +47,7 @@ public abstract class Piece {
 	}
 	
 	public boolean move(Location here){
+		if(ChessBoard.theState.getGameState() == "inGame"){
 			if (ChessBoard.theState.getCurrentPlayer() == getColor()){
 				if (this.canMoveTo(here) == 1 || this.canMoveTo(here) == 2){
 					//If you are trying to move to a valid location, check if there is an opponent there.
@@ -82,7 +83,8 @@ public abstract class Piece {
 				return true;
 				}
 			}
-			return false;
+		}
+		return false;
 		}		
 	
 	public abstract ArrayList<Location> getPossibleMoves();
