@@ -6,6 +6,8 @@ public class GameState {
 	private String currentMove;
 	private String gameState;
 	private boolean currentPlayerIsInCheck = false; 
+	private int whiteWins = 0;
+	private int blackWins = 0;
 	
 	public GameState(){
 		this.currentMove = "white";
@@ -21,6 +23,7 @@ public class GameState {
 		if(ChessBoard.getKing(currentMove).isInCheck()){
 			this.currentMove = (this.currentMove == "white") ? "black" : "white";
 			gameState = currentMove + " Wins";
+			if(currentMove == "white"){this.whiteWins++;}else{blackWins++;}
 			System.out.println(gameState);
 			return;
 		}
@@ -30,6 +33,7 @@ public class GameState {
 		if (ChessBoard.getPlayersPossibleMoves(currentMove) == null){
 			this.currentMove = (this.currentMove == "white") ? "black" : "white";
 			gameState = currentMove + " Wins";
+			if(currentMove == "white"){this.whiteWins++;}else{blackWins++;}
 			System.out.println(gameState);
 			return;
 		}
@@ -54,5 +58,13 @@ public class GameState {
 	
 	public void setGameState(String state){
 		this.gameState = state;
+	}
+	
+	public int getWhiteWins(){
+		return whiteWins;
+	}
+	
+	public int getBlackWins(){
+		return blackWins;
 	}
 }

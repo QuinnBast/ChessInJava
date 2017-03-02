@@ -24,9 +24,13 @@ public class BoardGui {
 	private final BoardPanel boardPanel;
 	private static final Dimension BOARD_PANEL_DIMENSION = new Dimension(50,50);
 	private static final Dimension TILE_PANEL_DIMENSION = new Dimension(10,10);
+	private takenPieceGui takenPiecePointer;
+	private scoreBoardGui scoreBoardPointer;
 	
-	BoardGui(){
+	BoardGui(takenPieceGui pieceGuiPtr, scoreBoardGui boardGuiPtr){
 		//constructor for BoardGui
+		this.takenPiecePointer = pieceGuiPtr;
+		this.scoreBoardPointer = boardGuiPtr;
 		boardPanel = new BoardPanel();
 		boardPanel.validate();
 		boardPanel.repaint();
@@ -64,7 +68,7 @@ public class BoardGui {
 									firstPanel.setBackground(Color.ORANGE);
 								} else {firstPanel = null;}
 							} else{
-								//We are chosing where to move the piece
+								//We are choosing where to move the piece
 								firstPanel.getPiece().move(new Location(clickedPanel.posx, clickedPanel.posy));
 								firstPanel.setBackground(firstPanelColor);
 								firstPanel = null;
@@ -126,14 +130,14 @@ public class BoardGui {
 						theTiles.get(i).setPiece(ChessBoard.board.get(j)); //set the tile to have this piece
 						break;
 					} else {theTiles.get(i).setPiece(null);}
-				}
-				
+				}	
 				theTiles.get(i).setImage();
-				}
-				revalidate();
-				repaint();
 			}
-		
+			takenPiecePointer.getPanel().updateTakenPieces();
+			scoreBoardPointer.getPanel().updateScore();
+			revalidate();
+			repaint();
+		}
 	}
 	
 	public class TilePanel extends JPanel{

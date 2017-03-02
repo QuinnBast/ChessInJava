@@ -53,6 +53,7 @@ public abstract class Piece {
 					//If you are trying to move to a valid location, check if there is an opponent there.
 					if (ChessBoard.getPieceAtLocation(here.getX(), here.getY()) != null){
 						//there is a piece there, lets remove it!
+						ChessBoard.takenPieces.add(ChessBoard.getPieceAtLocation(here.getX(), here.getY()));
 						ChessBoard.board.remove(ChessBoard.getPieceAtLocation(here.getX(), here.getY()));
 					}
 					//move the piece and return

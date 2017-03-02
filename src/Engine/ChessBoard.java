@@ -5,6 +5,7 @@ import Pieces.*;
 
 public class ChessBoard{
 	public static ArrayList<Piece> board = new ArrayList<Piece>();
+	public static ArrayList<Piece> takenPieces = new ArrayList<Piece>();
 	public static GameState theState = new GameState();
 	
 	public ChessBoard(){
