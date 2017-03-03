@@ -15,7 +15,7 @@ public class Pawn extends Piece {
 		int y = this.getLocation().getY();
 		ArrayList<Location> possibleMoves = new ArrayList<Location>();
 		//White pawns
-		if (this.getColor() == "white"){
+		if (this.getColor() == "White"){
 			//check 1 forward
 			if (ChessBoard.getPieceAtLocation(x, y+1) == null){
 				possibleMoves.add(new Location(x, y+1));
@@ -39,8 +39,8 @@ public class Pawn extends Piece {
 		}
 		
 		//Black Pawns
-		else if (this.getColor() == "black"){
-			//check 1 forward(down for black)
+		else if (this.getColor() == "Black"){
+			//check 1 forward(down for Black)
 			if (ChessBoard.getPieceAtLocation(x, y-1) == null){
 				possibleMoves.add(new Location(x, y-1));
 			}

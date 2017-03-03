@@ -28,8 +28,8 @@ public class takenPieceGui{
 	}
 	
 	public class takenPiecePanel extends JPanel{
-		private JPanel whitePieces = new JPanel();
-		private JPanel blackPieces = new JPanel();
+		private JPanel WhitePieces = new JPanel();
+		private JPanel BlackPieces = new JPanel();
 		
 		
 		takenPiecePanel(){
@@ -37,25 +37,25 @@ public class takenPieceGui{
 			this.setVisible(true);
 			
 			updateTakenPieces();
-			this.add(whitePieces);
-			this.add(blackPieces);
+			this.add(WhitePieces);
+			this.add(BlackPieces);
 			this.validate();
 			this.repaint();
 		}
 		
 		public void updateTakenPieces(){
 			this.removeAll();
-			whitePieces = new JPanel();
-			blackPieces = new JPanel();
-			whitePieces.setSize(new Dimension(37, 600));
-			blackPieces.setSize(new Dimension(37, 600));
-			whitePieces.setPreferredSize(new Dimension(37, 600));
-			blackPieces.setPreferredSize(new Dimension(37, 600));
-			whitePieces.setLayout(new BoxLayout(whitePieces, BoxLayout.Y_AXIS));
-			blackPieces.setLayout(new BoxLayout(blackPieces, BoxLayout.Y_AXIS));
+			WhitePieces = new JPanel();
+			BlackPieces = new JPanel();
+			WhitePieces.setSize(new Dimension(37, 600));
+			BlackPieces.setSize(new Dimension(37, 600));
+			WhitePieces.setPreferredSize(new Dimension(37, 600));
+			BlackPieces.setPreferredSize(new Dimension(37, 600));
+			WhitePieces.setLayout(new BoxLayout(WhitePieces, BoxLayout.Y_AXIS));
+			BlackPieces.setLayout(new BoxLayout(BlackPieces, BoxLayout.Y_AXIS));
 			
 			for (int i=0; i<ChessBoard.takenPieces.size(); i++){
-				if (ChessBoard.takenPieces.get(i).getColor() == "white"){
+				if (ChessBoard.takenPieces.get(i).getColor() == "White"){
 					BufferedImage img = null;
 					try{
 						img = ImageIO.read(getClass().getResource(ChessBoard.takenPieces.get(i).getImagePath()));
@@ -64,7 +64,7 @@ public class takenPieceGui{
 					}
 					img = resize(img, 30, 30);
 					ImageIcon icon = new ImageIcon(img);
-					whitePieces.add(new JLabel(icon));
+					WhitePieces.add(new JLabel(icon));
 				} else {
 					BufferedImage img = null;
 					try{
@@ -74,11 +74,11 @@ public class takenPieceGui{
 					}
 					img = resize(img, 30, 30);
 					ImageIcon icon = new ImageIcon(img);
-					blackPieces.add(new JLabel(icon));
+					BlackPieces.add(new JLabel(icon));
 				}
 			}
-			this.add(whitePieces);
-			this.add(blackPieces);
+			this.add(WhitePieces);
+			this.add(BlackPieces);
 		}
 		
 		public BufferedImage resize(BufferedImage image, int width, int height) {

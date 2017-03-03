@@ -10,7 +10,7 @@ public class GameState {
 	private int blackWins = 0;
 	
 	public GameState(){
-		this.currentMove = "white";
+		this.currentMove = "White";
 		this.gameState = "inGame";
 	}
 	
@@ -25,19 +25,19 @@ public class GameState {
 	public void switchPlayer(){
 		//check if the game is over
 		if(ChessBoard.getKing(currentMove).isInCheck()){
-			this.currentMove = (this.currentMove == "white") ? "black" : "white";
+			this.currentMove = (this.currentMove == "White") ? "Black" : "White";
 			gameState = currentMove + " Wins";
-			if(currentMove == "white"){this.whiteWins++;}else{blackWins++;}
+			if(currentMove == "White"){this.whiteWins++;}else{blackWins++;}
 			System.out.println(gameState);
 			return;
 		}
 		//switch players
-		this.currentMove = (this.currentMove == "white") ? "black" : "white";
+		this.currentMove = (this.currentMove == "White") ? "Black" : "White";
 		
 		if (ChessBoard.getPlayersPossibleMoves(currentMove) == null){
-			this.currentMove = (this.currentMove == "white") ? "black" : "white";
+			this.currentMove = (this.currentMove == "White") ? "Black" : "White";
 			gameState = currentMove + " Wins";
-			if(currentMove == "white"){this.whiteWins++;}else{blackWins++;}
+			if(currentMove == "White"){this.whiteWins++;}else{blackWins++;}
 			System.out.println(gameState);
 			return;
 		}

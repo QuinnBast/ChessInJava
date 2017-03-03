@@ -18,7 +18,7 @@ public abstract class Piece {
 	this.color = color;	
 	this.name = name;
 	this.location = new Location(posx, posy);
-	if(color == "white"){
+	if(color == "White"){
 		this.imagePath = "/Images/White"+name+".png";
 	}
 	else
@@ -65,16 +65,16 @@ public abstract class Piece {
 						//check the direction that the king is castling
 						int xUp1 = here.getX() + 1;
 						if (xUp1 == 3){
-							//the King is white castling left
+							//the King is White castling left
 							ChessBoard.getPieceAtLocation(0,0).setLocation(3, 0);
 						} else if (xUp1 == 7){
-							//the king is white castling right
+							//the king is White castling right
 							ChessBoard.getPieceAtLocation(7,0).setLocation(5, 0);
 						} else if (xUp1 == 6){
-							//The king is black castling (right to white) left
+							//The king is Black castling (right to White) left
 							ChessBoard.getPieceAtLocation(7,7).setLocation(4, 7);
 						} else if (xUp1 == 2){
-							//the king is black castling (left to white) right
+							//the king is Black castling (left to White) right
 							ChessBoard.getPieceAtLocation(0,7).setLocation(2, 7);
 						}
 						King theKing = (King) this;

@@ -47,29 +47,30 @@ public class ChessBoard{
 		clearBoard();
 		for (int i=0; i<8; i++)
 		{
-			board.add(new Pawn("white", i, 1));
-			board.add(new Pawn("black", i, 6));
+			board.add(new Pawn("White", i, 1));
+			board.add(new Pawn("Black", i, 6));
 		}
-		board.add(new Rook("black", 0, 7));
-		board.add(new Knight("black", 1, 7));
-		board.add(new Bishop("black", 2, 7));
-		board.add(new Queen("black", 4, 7));
-		board.add(new King("black", 3, 7));
-		board.add(new Bishop("black", 5, 7));
-		board.add(new Knight("black", 6, 7));
-		board.add(new Rook("black", 7, 7));
+		board.add(new Rook("Black", 0, 7));
+		board.add(new Knight("Black", 1, 7));
+		board.add(new Bishop("Black", 2, 7));
+		board.add(new Queen("Black", 4, 7));
+		board.add(new King("Black", 3, 7));
+		board.add(new Bishop("Black", 5, 7));
+		board.add(new Knight("Black", 6, 7));
+		board.add(new Rook("Black", 7, 7));
 		
-		board.add(new Rook("white", 0, 0));
-		board.add(new Knight("white", 1, 0));
-		board.add(new Bishop("white", 2, 0));
-		board.add(new Queen("white", 3, 0));
-		board.add(new King("white", 4, 0));
-		board.add(new Bishop("white", 5, 0));
-		board.add(new Knight("white", 6, 0));
-		board.add(new Rook("white", 7, 0));
+		board.add(new Rook("White", 0, 0));
+		board.add(new Knight("White", 1, 0));
+		board.add(new Bishop("White", 2, 0));
+		board.add(new Queen("White", 3, 0));
+		board.add(new King("White", 4, 0));
+		board.add(new Bishop("White", 5, 0));
+		board.add(new Knight("White", 6, 0));
+		board.add(new Rook("White", 7, 0));
 		
 		theState.setGameState("inGame");
-		theState.setCurrentPlayer("white");
+		theState.setCurrentPlayer("White");
+		theState.setCurrentPlayerInCheck(false);
 		takenPieces.clear();
 	}
 	

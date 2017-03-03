@@ -37,7 +37,7 @@ public class MenuGui {
 		exitMenu.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				//This is what happens when you click the "New Game" Button
+				//This is what happens when you click the "Quit Game" Button
 				System.out.println("Quit the game");
 			}
 		});

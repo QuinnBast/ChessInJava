@@ -121,7 +121,7 @@ public class King extends Piece {
 	public ArrayList<Location> canCastle(){
 		ArrayList<Location> possibleCastle = new ArrayList<Location>();
 		if (hasMoved == false){
-			if (getColor() == "white"){
+			if (getColor() == "White"){
 				if(ChessBoard.getPieceAtLocation(1, 0) == null &&
 					ChessBoard.getPieceAtLocation(2, 0) == null &&
 					ChessBoard.getPieceAtLocation(3, 0) == null &&
