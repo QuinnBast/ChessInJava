@@ -125,6 +125,7 @@ public class King extends Piece {
 				if(ChessBoard.getPieceAtLocation(1, 0) == null &&
 					ChessBoard.getPieceAtLocation(2, 0) == null &&
 					ChessBoard.getPieceAtLocation(3, 0) == null &&
+					ChessBoard.getPieceAtLocation(0, 0) != null &&
 					ChessBoard.getPieceAtLocation(0, 0).getName() == "Rook"){
 						Location temp = new Location(2, 0);
 						temp.setIsCastling();
@@ -132,6 +133,7 @@ public class King extends Piece {
 				}
 				if(ChessBoard.getPieceAtLocation(5, 0) == null &&
 				   ChessBoard.getPieceAtLocation(6, 0) == null &&
+				   ChessBoard.getPieceAtLocation(7, 0) != null &&
 				   ChessBoard.getPieceAtLocation(7, 0).getName() == "Rook"){
 						Location temp = new Location(6, 0);
 						temp.setIsCastling();
@@ -141,6 +143,7 @@ public class King extends Piece {
 			} else {
 				if(ChessBoard.getPieceAtLocation(1, 7) == null &&
 					ChessBoard.getPieceAtLocation(2, 7) == null &&
+					ChessBoard.getPieceAtLocation(7, 7) != null &&
 					ChessBoard.getPieceAtLocation(7, 7).getName() == "Rook"){
 						Location temp = new Location(1, 7);
 						temp.setIsCastling();
@@ -149,6 +152,7 @@ public class King extends Piece {
 				if(ChessBoard.getPieceAtLocation(6, 7) == null &&
 				   ChessBoard.getPieceAtLocation(5, 7) == null &&
 				   ChessBoard.getPieceAtLocation(4, 7) == null &&
+				   ChessBoard.getPieceAtLocation(7, 7) != null &&
 				   ChessBoard.getPieceAtLocation(7, 7).getName() == "Rook"){
 						Location temp = new Location(5, 7);
 						temp.setIsCastling();

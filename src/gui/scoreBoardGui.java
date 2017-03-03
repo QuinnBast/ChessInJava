@@ -26,7 +26,10 @@ public class scoreBoardGui {
 		scorePanel(){
 			this.setSize(new Dimension(600, 75));
 			this.setVisible(true);
-			this.setBackground(Color.BLUE);
+			this.setBackground(Color.LIGHT_GRAY);
+			whiteScore.setBackground(Color.LIGHT_GRAY);
+			blackScore.setBackground(Color.LIGHT_GRAY);
+	
 			updateScore();
 			this.whiteScore.add(whitePanel);
 			this.blackScore.add(blackPanel);
@@ -38,8 +41,8 @@ public class scoreBoardGui {
 		
 		
 		public void updateScore(){
-			whitePanel.setText("" + ChessBoard.theState.getWhiteWins());
-			blackPanel.setText("" + ChessBoard.theState.getBlackWins());
+			whitePanel.setText("<html><p>White</p><p style='text-align: center; width: 100%'>" + ChessBoard.theState.getWhiteWins() + "</p></html>");
+			blackPanel.setText("<html><p>Black</p><p style='text-align: center; width: 100%'>" + ChessBoard.theState.getBlackWins() + "</p></html>");
 		}
 	}
 	
