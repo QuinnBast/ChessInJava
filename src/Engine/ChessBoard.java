@@ -69,6 +69,8 @@ public class ChessBoard{
 		board.add(new Rook("white", 7, 0));
 		
 		theState.setGameState("inGame");
+		theState.setCurrentPlayer("white");
+		takenPieces.clear();
 	}
 	
 	public static ArrayList<Location> getPlayersPossibleMoves(String color){

@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -40,8 +41,15 @@ public class takenPieceGui{
 		}
 		
 		public void updateTakenPieces(){
-			JPanel tempWhite = new JPanel();
-			JPanel tempBlack = new JPanel();
+			this.removeAll();
+			whitePieces = new JPanel();
+			blackPieces = new JPanel();
+			whitePieces.setLayout(new BoxLayout(whitePieces, BoxLayout.Y_AXIS));
+			blackPieces.setLayout(new BoxLayout(blackPieces, BoxLayout.Y_AXIS));
+			
+			whitePieces.setSize(new Dimension(50, 500));
+			blackPieces.setSize(new Dimension(50, 500));
+			
 			for (int i=0; i<ChessBoard.takenPieces.size(); i++){
 				if (ChessBoard.takenPieces.get(i).getColor() == "white"){
 					BufferedImage img = null;
@@ -51,9 +59,7 @@ public class takenPieceGui{
 						e.printStackTrace();
 					}
 					ImageIcon icon = new ImageIcon(img);
-					tempWhite.add(new JLabel(icon));
-					whitePieces.revalidate();
-					whitePieces.repaint();
+					whitePieces.add(new JLabel(icon));
 				} else {
 					BufferedImage img = null;
 					try{
@@ -62,15 +68,11 @@ public class takenPieceGui{
 						e.printStackTrace();
 					}
 					ImageIcon icon = new ImageIcon(img);
-					tempBlack.add(new JLabel(icon));
-					blackPieces.revalidate();
-					blackPieces.repaint();
+					blackPieces.add(new JLabel(icon));
 				}
 			}
-			whitePieces = tempWhite;
-			blackPieces = tempBlack;
-			whitePieces.repaint();
-			blackPieces.repaint();
+			this.add(whitePieces);
+			this.add(blackPieces);
 		}		
 	}
 	

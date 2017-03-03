@@ -18,6 +18,10 @@ public class GameState {
 		return currentMove;
 	}
 	
+	public void setCurrentPlayer(String player){
+		this.currentMove = player;
+	}
+	
 	public void switchPlayer(){
 		//check if the game is over
 		if(ChessBoard.getKing(currentMove).isInCheck()){
