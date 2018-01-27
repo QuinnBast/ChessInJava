@@ -35,13 +35,13 @@ public class userGui {
 		this.window.add(windowLayers);
 
 		//add the chess board
-		boardGui.getBoardBackground().setBounds(60,60,600,600);
+		boardGui.getBoardBackground().setBounds(120,60,600,600);
 		windowLayers.add(boardGui.getBoardBackground());
 		//add a side panel
-		takenPieces.getPanel().setBounds(0,0,60,600);
+		takenPieces.getPanel().setBounds(0,0,120,600);
 		windowLayers.add(takenPieces.getPanel());
 
-		scoreGui.getPanel().setBounds(60,0,600,60);
+		scoreGui.getPanel().setBounds(120,0,600,60);
 		windowLayers.add(scoreGui.getPanel());
 
 		windowLayers.add(promotionPanel, JLayeredPane.MODAL_LAYER);
