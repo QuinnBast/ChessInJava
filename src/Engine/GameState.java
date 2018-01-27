@@ -1,6 +1,8 @@
 package Engine;
 
 import Pieces.King;
+import Pieces.Location;
+import Pieces.Piece;
 
 public class GameState {
 	private String currentMove;
@@ -34,17 +36,44 @@ public class GameState {
 		//switch players
 		this.currentMove = (this.currentMove == "White") ? "Black" : "White";
 		
-		if (ChessBoard.getPlayersPossibleMoves(currentMove) == null){
-			this.currentMove = (this.currentMove == "White") ? "Black" : "White";
-			gameState = currentMove + " Wins";
-			if(currentMove == "White"){this.whiteWins++;}else{blackWins++;}
+		if (ChessBoard.getPlayersPossibleMoves(currentMove) == null && ChessBoard.getKing(currentMove).isInCheck() == false){
+			gameState = "Stalemate";
 			System.out.println(gameState);
 			return;
 		}
 		
 		if(ChessBoard.getKing(currentMove).isInCheck()){
-			System.out.println("You are in check!");
 			setCurrentPlayerInCheck(true);
+			for(Piece piece : ChessBoard.board){
+				if(piece.getColor() == currentMove){
+					//For each of the current player's pieces,
+					//Try to see if the piece can prevent the check.
+
+					//Save the initial location of the piece.
+					Location initialLocation = new Location(piece.getLocation().getX(), piece.getLocation().getY());
+
+					//For all possible moves for that piece, attempt to move that piece.
+					for(Location possibleMove : piece.getPossibleMoves()){
+						//Attempt to move the piece.
+						piece.setLocation(possibleMove.getX(), possibleMove.getY());
+						//If the king isn't in check after the move, it is not checkmate.
+						if(!ChessBoard.getKing(currentMove).isInCheck()){
+							//Reset the piece's location.
+							piece.setLocation(initialLocation.getX(), initialLocation.getY());
+							System.out.println("You are in check!");
+							setCurrentPlayerInCheck(true);
+							return;
+						}
+					}
+					//Reset the piece's location.
+					piece.setLocation(initialLocation.getX(), initialLocation.getY());
+				}
+			}
+			//If its not possible to avoid check, Checkmate.
+			System.out.println("Checkmate");
+			gameState = (currentMove == "White" ? "Black" : "White") + " Wins";
+			if(currentMove == "White"){this.blackWins++;}else{whiteWins++;}
+			return;
 		} else {setCurrentPlayerInCheck(false);}
 	}
 
