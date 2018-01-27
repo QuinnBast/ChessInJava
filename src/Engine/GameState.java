@@ -7,7 +7,7 @@ import Pieces.Piece;
 
 public class GameState {
 	public static String currentMove;
-	private String gameState;
+	private static String gameState;
 	private boolean currentPlayerIsInCheck = false; 
 	private int whiteWins = 0;
 	private int blackWins = 0;
@@ -97,8 +97,8 @@ public class GameState {
 		return this.gameState;
 	}
 	
-	public void setGameState(String state){
-		this.gameState = state;
+	public static void setGameState(String state){
+		gameState = state;
 	}
 	
 	public int getWhiteWins(){

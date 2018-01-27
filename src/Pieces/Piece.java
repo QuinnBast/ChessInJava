@@ -67,24 +67,34 @@ public abstract class Piece {
 						}
 					}
 
-					//If you are moving a pawn and capturing enPassant
+					//If you are moving a pawn
 					if(this instanceof Pawn){
+
+						//if you are capturing enPassant:
 						for(Location l : this.getPossibleMoves()){
 							if(l.getY() == here.getY() && l.getX() == here.getX() && l.isEnPassant()){
 								if (GameState.getCurrentPlayer() == "White") {
 									//Remove the pawn below the space for white
 									ChessBoard.takenPieces.add(ChessBoard.getPieceAtLocation(here.getX(), here.getY()-1));
 									ChessBoard.board.remove(ChessBoard.getPieceAtLocation(here.getX(), here.getY()-1));
+									break;
 								} else {
 									//If black is moving then remove the piece above the required location.
 									ChessBoard.takenPieces.add(ChessBoard.getPieceAtLocation(here.getX(), here.getY()+1));
 									ChessBoard.board.remove(ChessBoard.getPieceAtLocation(here.getX(), here.getY()+1));
+									break;
 								}
 							}
 						}
+
+						//If you are promoting on the last file:
+						if(here.getX() == 0 || here.getX() == 7){
+							//Call up Gui to promote
+
+						}
 					}
 
-					//move the piece and return
+				//move the piece and return
 					setLocation(here.getX(), here.getY());
 					
 					//Do we need to move more than one piece in this move (castling/en Passant?)

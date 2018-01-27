@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 
 import Engine.ChessBoard;
 import Pieces.Location;
+import Pieces.Pawn;
 import Pieces.Piece;
 
 public class BoardGui {
@@ -26,11 +27,13 @@ public class BoardGui {
 	private static final Dimension TILE_PANEL_DIMENSION = new Dimension(10,10);
 	private takenPieceGui takenPiecePointer;
 	private scoreBoardGui scoreBoardPointer;
+	private PromotionPanel promotionPanel;
 	
-	BoardGui(takenPieceGui pieceGuiPtr, scoreBoardGui boardGuiPtr){
+	BoardGui(takenPieceGui pieceGuiPtr, scoreBoardGui boardGuiPtr, PromotionPanel promotePanelPtr){
 		//constructor for BoardGui
 		this.takenPiecePointer = pieceGuiPtr;
 		this.scoreBoardPointer = boardGuiPtr;
+		this.promotionPanel = promotePanelPtr;
 		boardPanel = new BoardPanel();
 		boardPanel.validate();
 		boardPanel.repaint();
@@ -79,25 +82,21 @@ public class BoardGui {
 						@Override
 						public void mouseEntered(MouseEvent e) {
 							// TODO Auto-generated method stub
-							
 						}
 
 						@Override
 						public void mouseExited(MouseEvent e) {
 							// TODO Auto-generated method stub
-							
 						}
 
 						@Override
 						public void mousePressed(MouseEvent e) {
 							// TODO Auto-generated method stub
-							
 						}
 
 						@Override
 						public void mouseReleased(MouseEvent e) {
 							// TODO Auto-generated method stub
-							
 						}
 				});
 					
@@ -116,6 +115,9 @@ public class BoardGui {
 		
 		public void updateBoard(){
 			ArrayList<TilePanel> theTiles = getTiles();
+			boolean isPromotion = false;
+			int promotex = 0;
+			int promotey = 0;
 			for (int i=0; i<theTiles.size(); i++){
 				//loop through the tiles
 				for (int j=0; j<ChessBoard.board.size(); j++){
@@ -128,6 +130,13 @@ public class BoardGui {
 					if (tilex == boardx	&& tiley == boardy){
 						//we need to set the tile to be linked to a piece.
 						theTiles.get(i).setPiece(ChessBoard.board.get(j)); //set the tile to have this piece
+						//Check if the piece is a pawn being promoted.
+						if(ChessBoard.board.get(j) instanceof Pawn && (ChessBoard.board.get(j).getLocation().getY() == 0 || ChessBoard.board.get(j).getLocation().getY() == 7)){
+							isPromotion = true;
+							promotex = ChessBoard.board.get(j).getLocation().getX();
+							promotey = ChessBoard.board.get(j).getLocation().getY();
+						}
+
 						break;
 					} else {theTiles.get(i).setPiece(null);}
 				}	
@@ -135,6 +144,16 @@ public class BoardGui {
 			}
 			takenPiecePointer.getPanel().updateTakenPieces();
 			scoreBoardPointer.getPanel().updateScore();
+
+			//Check if there is a pawn promotion happening
+			if(isPromotion){
+				//Create interface to select what piece the user wants to make.
+				promotionPanel.setVisible(true);
+				promotionPanel.setLocation(300 - 75, 300 - 75);
+			} else {
+				promotionPanel.setVisible(false);
+			}
+
 			revalidate();
 			repaint();
 		}
