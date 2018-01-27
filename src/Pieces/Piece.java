@@ -3,6 +3,7 @@ package Pieces;
 import java.util.ArrayList;
 
 import Engine.ChessBoard;
+import Engine.GameState;
 
 public abstract class Piece {
 	private String color;
@@ -56,6 +57,33 @@ public abstract class Piece {
 						ChessBoard.takenPieces.add(ChessBoard.getPieceAtLocation(here.getX(), here.getY()));
 						ChessBoard.board.remove(ChessBoard.getPieceAtLocation(here.getX(), here.getY()));
 					}
+					//Is a pawn moving twice?
+					//Check if the pawn moved twice for enPassant
+					if(this instanceof Pawn){
+						Pawn p = (Pawn)this;
+						if(Math.abs(this.location.getY() - here.getY()) == 2){
+							//The pawn moved twice
+							p.setMovedTwice(true);
+						}
+					}
+
+					//If you are moving a pawn and capturing enPassant
+					if(this instanceof Pawn){
+						for(Location l : this.getPossibleMoves()){
+							if(l.getY() == here.getY() && l.getX() == here.getX() && l.isEnPassant()){
+								if (GameState.getCurrentPlayer() == "White") {
+									//Remove the pawn below the space for white
+									ChessBoard.takenPieces.add(ChessBoard.getPieceAtLocation(here.getX(), here.getY()-1));
+									ChessBoard.board.remove(ChessBoard.getPieceAtLocation(here.getX(), here.getY()-1));
+								} else {
+									//If black is moving then remove the piece above the required location.
+									ChessBoard.takenPieces.add(ChessBoard.getPieceAtLocation(here.getX(), here.getY()+1));
+									ChessBoard.board.remove(ChessBoard.getPieceAtLocation(here.getX(), here.getY()+1));
+								}
+							}
+						}
+					}
+
 					//move the piece and return
 					setLocation(here.getX(), here.getY());
 					

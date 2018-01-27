@@ -2,10 +2,11 @@ package Engine;
 
 import Pieces.King;
 import Pieces.Location;
+import Pieces.Pawn;
 import Pieces.Piece;
 
 public class GameState {
-	private String currentMove;
+	public static String currentMove;
 	private String gameState;
 	private boolean currentPlayerIsInCheck = false; 
 	private int whiteWins = 0;
@@ -16,7 +17,7 @@ public class GameState {
 		this.gameState = "inGame";
 	}
 	
-	public String getCurrentPlayer(){
+	public static String getCurrentPlayer(){
 		return currentMove;
 	}
 	
@@ -35,6 +36,13 @@ public class GameState {
 		}
 		//switch players
 		this.currentMove = (this.currentMove == "White") ? "Black" : "White";
+
+		//Reset pawns tagged for EnPassant for current Player
+		for(Piece p : ChessBoard.board){
+			if(p.getColor() == currentMove && p instanceof Pawn && (((Pawn) p).getMovedTwice() == true)){
+				((Pawn) p).setMovedTwice(false);
+			}
+		}
 		
 		if (ChessBoard.getPlayersPossibleMoves(currentMove) == null && ChessBoard.getKing(currentMove).isInCheck() == false){
 			gameState = "Stalemate";

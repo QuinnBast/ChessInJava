@@ -8,6 +8,7 @@ public class Pawn extends Piece {
 	public Pawn(String owner, int posx, int posy){
 		super(owner, "Pawn", posx, posy);
 	}
+	private boolean movedTwice = false;
 	
 	@Override
 	public ArrayList<Location> getPossibleMoves(){
@@ -27,6 +28,7 @@ public class Pawn extends Piece {
 					possibleMoves.add(new Location(x, y+2));
 				}
 			}
+
 			//Can the pawn attack something?
 			//No pieces will be off the board so we don't have to check bounds
 			if (ChessBoard.getPieceAtLocation(x+1, y+1) != null){
@@ -35,6 +37,28 @@ public class Pawn extends Piece {
 			if (ChessBoard.getPieceAtLocation(x-1, y+1) != null){
 				possibleMoves.add(new Location(x-1, y+1));
 			}
+			//Check if there is a pawn that can be capture EnPassant
+			if(
+					(ChessBoard.getPieceAtLocation(x+1, y) != null &&
+					ChessBoard.getPieceAtLocation(x+1, y) instanceof Pawn &&
+					((Pawn)ChessBoard.getPieceAtLocation(x+1, y)).getMovedTwice() == true)
+					||
+					(ChessBoard.getPieceAtLocation(x-1, y) != null &&
+					ChessBoard.getPieceAtLocation(x-1, y) instanceof Pawn &&
+					((Pawn)ChessBoard.getPieceAtLocation(x-1, y)).getMovedTwice() == true)
+			  ){
+				//There is a pawn that can be captured enPassant.
+				if(ChessBoard.getPieceAtLocation(x-1, y) != null) {
+					Location location = new Location(x -1, y + 1);
+					location.setEnPassant();
+					possibleMoves.add(location);
+				} else {
+					Location location = new Location(x +1, y + 1);
+					location.setEnPassant();
+					possibleMoves.add(location);
+				}
+			}
+
 			return possibleMoves;
 		}
 		
@@ -58,12 +82,42 @@ public class Pawn extends Piece {
 			if (ChessBoard.getPieceAtLocation(x-1, y-1) != null){
 				possibleMoves.add(new Location(x-1, y-1));
 			}
+
+			//Check if there is a pawn that can be capture EnPassant
+			if(
+				(ChessBoard.getPieceAtLocation(x+1, y) != null &&
+				ChessBoard.getPieceAtLocation(x+1, y) instanceof Pawn &&
+				((Pawn)ChessBoard.getPieceAtLocation(x+1, y)).getMovedTwice() == true)
+				||
+				(ChessBoard.getPieceAtLocation(x-1, y) != null &&
+				ChessBoard.getPieceAtLocation(x-1, y) instanceof Pawn &&
+				((Pawn)ChessBoard.getPieceAtLocation(x-1, y)).getMovedTwice() == true)
+				){
+				//There is a pawn that can be captured enPassant.
+				if(ChessBoard.getPieceAtLocation(x-1, y) != null) {
+					Location location = new Location(x -1, y - 1);
+					location.setEnPassant();
+					possibleMoves.add(location);
+				} else {
+					Location location = new Location(x +1, y - 1);
+					location.setEnPassant();
+					possibleMoves.add(location);
+				}
+			}
+
 			return possibleMoves;
 		}
 		else{
 		return null;
 		}
 	}
-	
+
+	public void setMovedTwice(boolean value){
+		this.movedTwice = value;
+	}
+
+	public boolean getMovedTwice(){
+		return this.movedTwice;
+	}
 
 }
