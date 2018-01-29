@@ -2,7 +2,6 @@ package Engine;
 
 import Engine.GameStates.Gamestates;
 import Pieces.Location;
-import Pieces.Pawn;
 import Pieces.Piece;
 
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ public class MoveHistory {
         String prefix = "";
         if(!piece.getName().equals("Pawn") || capture){
             if(piece.getName().equals("Pawn")){
-                prefix += getFile(LastLocation.getX());
+                prefix += getFileName(LastLocation.getX());
             } else {
                 prefix += piece.getName().charAt(0);
             }
@@ -34,10 +33,12 @@ public class MoveHistory {
         if(capture){
             prefix += "x";
         }
-        prefix += getFile(piece.getLocation().getX());
+        prefix += getFileName(piece.getLocation().getX());
         prefix += piece.getLocation().getY() + 1;
 
-        if(GameState.getCurrentPlayerInCheck()){
+        if(GameState.getGameState() == Gamestates.BLACK_WINS || GameState.getGameState() == Gamestates.WHITE_WINS){
+            prefix += "#";
+        } else if(GameState.getCurrentPlayerInCheck()){
             prefix += "+";
         }
 
@@ -58,7 +59,7 @@ public class MoveHistory {
 
     public String printMoves(){
         String moveHistory = "";
-        for(int i=0; i<=moves.size() - 1; i++){
+        for(int i = (moves.size() > 16) ? moves.size() - 16 : 0; i<=moves.size() - 1; i++){
             if(i == 0){
                 moveHistory += "1. ";
             } else if(i % 2 == 0){
@@ -70,7 +71,7 @@ public class MoveHistory {
         return moveHistory;
     }
 
-    private String getFile(int x){
+    private String getFileName(int x){
         switch(x){
             case 0:
                 return "a";
@@ -97,7 +98,7 @@ public class MoveHistory {
         moves.set(moves.size() - 1, moves.get(moves.size() - 1) + "+");
     }
 
-    public void checkmate(){
-        moves.set(moves.size() - 1, moves.get(moves.size() - 1) + "#");
+    public void reset(){
+        this.moves = new ArrayList<String>();
     }
 }

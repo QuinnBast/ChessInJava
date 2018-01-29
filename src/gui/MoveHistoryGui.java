@@ -3,6 +3,7 @@ package gui;
 import Engine.GameState;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * Created by Quinn on 1/28/2018.
@@ -14,6 +15,7 @@ public class MoveHistoryGui extends JPanel {
     MoveHistoryGui(){
         this.add(history);
         history.setText("History");
+        history.setPreferredSize(new Dimension(600, 60));
         history.setHorizontalAlignment(SwingConstants.RIGHT);
     }
 

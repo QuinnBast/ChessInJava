@@ -34,7 +34,19 @@ public class ChessBoard{
 			return thePiece.getPossibleMoves();
 		}
 		return null;
-	}	
+	}
+
+	public static ArrayList<Piece> getPlayersPieces(String color){
+		ArrayList<Piece> pieces = new ArrayList<Piece>();
+		for(Piece p : board)
+		{
+			if (p.getColor() == color)
+			{
+				pieces.add(p);
+			}
+		}
+		return pieces;
+	}
 	
 	public static void clearBoard(){
 		ChessBoard.board.clear();
@@ -72,6 +84,7 @@ public class ChessBoard{
 		theState.setGameState(Gamestates.INGAME);
 		theState.setCurrentPlayer("White");
 		theState.setCurrentPlayerInCheck(false);
+		GameState.getHistory().reset();
 		takenPieces.clear();
 	}
 	

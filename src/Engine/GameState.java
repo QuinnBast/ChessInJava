@@ -60,33 +60,30 @@ public class GameState {
 		//Check if checkmate
 		if(ChessBoard.getKing(currentMove).isInCheck()){
 			setCurrentPlayerInCheck(true);
-			for (Piece piece : ChessBoard.board) {
-				if (piece.getColor() == currentMove) {
-					//For each of the current player's pieces,
-					//Try to see if the piece can prevent the check.
+			for (Piece piece : ChessBoard.getPlayersPieces(this.currentMove)) {
+				//For each of the current player's pieces,
+				//Try to see if the piece can prevent the check.
 
-					//Save the initial location of the piece.
-					Location initialLocation = new Location(piece.getLocation().getX(), piece.getLocation().getY());
+				//Save the initial location of the piece.
+				Location initialLocation = new Location(piece.getLocation().getX(), piece.getLocation().getY());
 
-					//For all possible moves for that piece, attempt to move that piece.
-					for (Location possibleMove : piece.getPossibleMoves()) {
-						//Attempt to move the piece.
-						piece.setLocation(possibleMove.getX(), possibleMove.getY());
-						//If the king isn't in check after the move, it is not checkmate.
-						if (!ChessBoard.getKing(currentMove).isInCheck()) {
-							//Reset the piece's location.
-							piece.setLocation(initialLocation.getX(), initialLocation.getY());
-							System.out.println("You are in check!");
-							return;
-						}
+				//For all possible moves for that piece, attempt to move that piece.
+				for (Location possibleMove : piece.getPossibleMoves()) {
+					//Attempt to move the piece.
+					piece.setLocation(possibleMove.getX(), possibleMove.getY());
+					//If the king isn't in check after the move, it is not checkmate.
+					if (!ChessBoard.getKing(currentMove).isInCheck()) {
+						//Reset the piece's location.
+						piece.setLocation(initialLocation.getX(), initialLocation.getY());
+						System.out.println("You are in check!");
+						return;
 					}
-					//Reset the piece's location.
-					piece.setLocation(initialLocation.getX(), initialLocation.getY());
 				}
+				//Reset the piece's location.
+				piece.setLocation(initialLocation.getX(), initialLocation.getY());
 			}
 			//If its not possible to avoid check, Checkmate.
 			System.out.println("Checkmate");
-			GameState.getHistory().checkmate();
 			gameState = (currentMove == "White" ? Gamestates.BLACK_WINS : Gamestates.WHITE_WINS);
 			if (currentMove == "White") {
 				this.blackWins++;
@@ -105,7 +102,7 @@ public class GameState {
 		this.currentPlayerIsInCheck = currentPlayerIsInCheck;
 	}
 	
-	public Gamestates getGameState(){
+	public static Gamestates getGameState(){
 		return gameState;
 	}
 	

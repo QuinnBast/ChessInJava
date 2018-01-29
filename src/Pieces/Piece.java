@@ -49,88 +49,97 @@ public abstract class Piece {
 	}
 	
 	public boolean move(Location here){
-		if(ChessBoard.theState.getGameState() == Gamestates.INGAME){
-			if (GameState.getCurrentPlayer() == getColor()){
-				if (this.canMoveTo(here) == 1 || this.canMoveTo(here) == 2){
-					boolean capture = false;
-					Location lastLocation = new Location(this.getLocation().getX(), this.getLocation().getY());
+		if(ChessBoard.theState.getGameState() != Gamestates.INGAME) {
+			return false;
+		}
 
-					//If you are trying to move to a valid location, check if there is an opponent there.
-					if (ChessBoard.getPieceAtLocation(here.getX(), here.getY()) != null){
-						//there is a piece there, lets remove it!
-						ChessBoard.takenPieces.add(ChessBoard.getPieceAtLocation(here.getX(), here.getY()));
-						ChessBoard.board.remove(ChessBoard.getPieceAtLocation(here.getX(), here.getY()));
-						capture = true;
+		if(GameState.getCurrentPlayer() != getColor()){
+			return false;
+		}
+
+		if(this.canMoveTo(here) == 0){
+			return false;
+		}
+
+		boolean capture = false;
+		Piece capturedPiece = null;
+		Location lastLocation = new Location(this.getLocation().getX(), this.getLocation().getY());
+
+		//If you are trying to move to a valid location, check if there is an opponent there.
+		if (ChessBoard.getPieceAtLocation(here.getX(), here.getY()) != null){
+			//there is a piece there, lets remove it!
+			capturedPiece = ChessBoard.getPieceAtLocation(here.getX(), here.getY());
+			ChessBoard.takenPieces.add(ChessBoard.getPieceAtLocation(here.getX(), here.getY()));
+			ChessBoard.board.remove(ChessBoard.getPieceAtLocation(here.getX(), here.getY()));
+			capture = true;
+		}
+		//Is a pawn moving twice?
+		//Check if the pawn moved twice for enPassant
+		if(this instanceof Pawn){
+			Pawn p = (Pawn)this;
+
+			//If you are moving twice, set the flag for EnPassant
+			if(Math.abs(this.location.getY() - here.getY()) == 2){
+				//The pawn moved twice
+				p.setMovedTwice(true);
+			}
+
+			//Check if you are capturing enPassant
+			for(Location l : this.getPossibleMoves()){
+				if(l.getY() == here.getY() && l.getX() == here.getX() && l.isEnPassant()){
+					capture = true;
+					if (GameState.getCurrentPlayer() == "White") {
+						//Remove the pawn below the space for white
+						capturedPiece = ChessBoard.getPieceAtLocation(here.getX(), here.getY()-1);
+						ChessBoard.takenPieces.add(ChessBoard.getPieceAtLocation(here.getX(), here.getY()-1));
+						ChessBoard.board.remove(ChessBoard.getPieceAtLocation(here.getX(), here.getY()-1));
+						break;
+					} else {
+						//If black is moving then remove the piece above the required location.
+						capturedPiece = ChessBoard.getPieceAtLocation(here.getX(), here.getY()+1);
+						ChessBoard.takenPieces.add(ChessBoard.getPieceAtLocation(here.getX(), here.getY()+1));
+						ChessBoard.board.remove(ChessBoard.getPieceAtLocation(here.getX(), here.getY()+1));
+						break;
 					}
-					//Is a pawn moving twice?
-					//Check if the pawn moved twice for enPassant
-					if(this instanceof Pawn){
-						Pawn p = (Pawn)this;
-						if(Math.abs(this.location.getY() - here.getY()) == 2){
-							//The pawn moved twice
-							p.setMovedTwice(true);
-						}
-					}
-
-					//If you are moving a pawn
-					if(this instanceof Pawn){
-
-						//if you are capturing enPassant:
-						for(Location l : this.getPossibleMoves()){
-							if(l.getY() == here.getY() && l.getX() == here.getX() && l.isEnPassant()){
-								capture = true;
-								if (GameState.getCurrentPlayer() == "White") {
-									//Remove the pawn below the space for white
-									ChessBoard.takenPieces.add(ChessBoard.getPieceAtLocation(here.getX(), here.getY()-1));
-									ChessBoard.board.remove(ChessBoard.getPieceAtLocation(here.getX(), here.getY()-1));
-									break;
-								} else {
-									//If black is moving then remove the piece above the required location.
-									ChessBoard.takenPieces.add(ChessBoard.getPieceAtLocation(here.getX(), here.getY()+1));
-									ChessBoard.board.remove(ChessBoard.getPieceAtLocation(here.getX(), here.getY()+1));
-									break;
-								}
-							}
-						}
-					}
-
-					//Do we need to move more than one piece in this move (castling/en Passant?)
-					//Is a king castling??
-					if (this.canMoveTo(here) == 2){
-						//check the direction that the king is castling
-						int xUp1 = here.getX() + 1;
-						if (xUp1 == 3){
-							//the King is White castling left
-							ChessBoard.getPieceAtLocation(0,0).setLocation(3, 0);
-							GameState.getHistory().addOOOCastle();
-						} else if (xUp1 == 7){
-							//the king is White castling right
-							ChessBoard.getPieceAtLocation(7,0).setLocation(5, 0);
-							GameState.getHistory().addOOCastle();
-						} else if (xUp1 == 6){
-							//The king is Black castling (right to White) left
-							ChessBoard.getPieceAtLocation(7,7).setLocation(4, 7);
-							GameState.getHistory().addOOCastle();
-						} else if (xUp1 == 2){
-							//the king is Black castling (left to White) right
-							ChessBoard.getPieceAtLocation(0,7).setLocation(2, 7);
-							GameState.getHistory().addOOOCastle();
-						}
-						King theKing = (King) this;
-						theKing.setHasMoved();
-					}
-
-
-				//move the piece and return
-				setLocation(here.getX(), here.getY());
-				ChessBoard.theState.switchPlayer();
-				GameState.getHistory().addMove(this, lastLocation, capture);
-				return true;
 				}
 			}
 		}
-		return false;
-		}		
+
+		//Do we need to move more than one piece in this move (castling/en Passant?)
+		//Is a king castling??
+		if (this.canMoveTo(here) == 2){
+			//check the direction that the king is castling
+			int xUp1 = here.getX() + 1;
+			if (xUp1 == 2){
+				//Castling left
+				if(getColor() == "White") {
+					ChessBoard.getPieceAtLocation(0,0).setLocation(3, 0);
+					GameState.getHistory().addOOOCastle();
+				}
+				else {
+					ChessBoard.getPieceAtLocation(0,7).setLocation(2, 7);
+					GameState.getHistory().addOOOCastle();
+				}
+			} else if (xUp1 == 6) {
+				//Castling left
+				if (getColor() == "White") {
+					ChessBoard.getPieceAtLocation(7, 0).setLocation(5, 0);
+					GameState.getHistory().addOOCastle();
+				} else {
+					ChessBoard.getPieceAtLocation(7, 7).setLocation(4, 7);
+					GameState.getHistory().addOOCastle();
+				}
+			}
+
+			King theKing = (King) this;
+			theKing.setHasMoved();
+		}
+		//move the piece and return
+		setLocation(here.getX(), here.getY());
+		ChessBoard.theState.switchPlayer();
+		GameState.getHistory().addMove(this, lastLocation, capture);
+		return true;
+	}
 	
 	public abstract ArrayList<Location> getPossibleMoves();
 	
