@@ -1,23 +1,21 @@
 package gui;
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.*;
-import javax.swing.plaf.LayerUI;
-
-import Engine.ChessBoard;
 
 public class userGui {
 	//Create an object for the window
 	private final JFrame window = new JFrame();
 	private final JLayeredPane windowLayers = new JLayeredPane();
-	private takenPieceGui takenPieces = new takenPieceGui();
-	private scoreBoardGui scoreGui = new scoreBoardGui();
-	private PromotionPanel promotionPanel = new PromotionPanel();
-	private BoardGui boardGui = new BoardGui(takenPieces,scoreGui,promotionPanel);
-	private MenuGui menuGui = new MenuGui(boardGui);
+
+	private final takenPieceGui takenPieces = new takenPieceGui();
+	private final ScoreboardGui scoreGui = new ScoreboardGui();
+	private final PromotionPanel promotionPanel = new PromotionPanel();
+	private final BoardGui boardGui = new BoardGui(promotionPanel,this);
+	private final MenuGui menuGui = new MenuGui(boardGui);
+	private final MoveHistoryGui historyGui = new MoveHistoryGui();
 	
 	//constants for the dimensions
 	private final static Dimension OUTER_FRAME_DIMENSION = new Dimension(800,800);
@@ -27,7 +25,7 @@ public class userGui {
 		makeWindow();
 	}
 	
-	private void makeWindow(){
+	private void makeWindow() {
 		this.window.setSize(OUTER_FRAME_DIMENSION);
 		this.window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.window.setJMenuBar(menuGui.getMenu()); //Get the menu from the menuGui class
@@ -35,14 +33,17 @@ public class userGui {
 		this.window.add(windowLayers);
 
 		//add the chess board
-		boardGui.getBoardBackground().setBounds(120,60,600,600);
+		boardGui.getBoardBackground().setBounds(120, 60, 600, 600);
 		windowLayers.add(boardGui.getBoardBackground());
 		//add a side panel
-		takenPieces.getPanel().setBounds(0,0,120,600);
+		takenPieces.getPanel().setBounds(0, 0, 120, 600);
 		windowLayers.add(takenPieces.getPanel());
 
-		scoreGui.getPanel().setBounds(120,0,600,60);
+		scoreGui.getPanel().setBounds(120, 0, 600, 60);
 		windowLayers.add(scoreGui.getPanel());
+
+		historyGui.setBounds(120, 660, 600, 60);
+		windowLayers.add(historyGui);
 
 		windowLayers.add(promotionPanel, JLayeredPane.MODAL_LAYER);
 
@@ -50,37 +51,9 @@ public class userGui {
 
 		//Set the window's Icon
 		this.window.setIconImage(
-			    new ImageIcon(getClass().getResource("/Images/WhitePawn.png")).getImage());
+				new ImageIcon(getClass().getResource("/Images/WhitePawn.png")).getImage());
 		this.window.setVisible(true);
 		this.updateWindow();
-
-		window.addMouseListener(new MouseListener() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				updateWindow();
-			}
-
-			@Override
-			public void mousePressed(MouseEvent e) {
-
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent e) {
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-
-			}
-		});
-
-
 	}
 	
 	public JFrame getWindow(){
@@ -88,8 +61,8 @@ public class userGui {
 	}
 	
 	public void updateWindow(){
-		boardGui.getBoardBackground().updateBoard();
 		takenPieces.getPanel().updateTakenPieces();
 		scoreGui.getPanel().updateScore();
+		historyGui.updateMoves();
 	}
 }

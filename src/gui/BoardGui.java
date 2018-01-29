@@ -2,7 +2,6 @@ package gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
@@ -25,18 +24,16 @@ public class BoardGui {
 	private final BoardPanel boardPanel;
 	private static final Dimension BOARD_PANEL_DIMENSION = new Dimension(50,50);
 	private static final Dimension TILE_PANEL_DIMENSION = new Dimension(10,10);
-	private takenPieceGui takenPiecePointer;
-	private scoreBoardGui scoreBoardPointer;
 	private PromotionPanel promotionPanel;
+	private userGui userGuiPointer;
 	
-	BoardGui(takenPieceGui pieceGuiPtr, scoreBoardGui boardGuiPtr, PromotionPanel promotePanelPtr){
+	BoardGui(PromotionPanel promotePanelPtr, userGui userGuiPtr){
 		//constructor for BoardGui
-		this.takenPiecePointer = pieceGuiPtr;
-		this.scoreBoardPointer = boardGuiPtr;
 		this.promotionPanel = promotePanelPtr;
 		boardPanel = new BoardPanel();
 		boardPanel.validate();
 		boardPanel.repaint();
+		this.userGuiPointer = userGuiPtr;
 	}
 	
 	public BoardPanel getPanel(){
@@ -114,7 +111,7 @@ public class BoardGui {
 		}
 		
 		public void updateBoard(){
-			ArrayList<TilePanel> theTiles = getTiles();
+						ArrayList<TilePanel> theTiles = getTiles();
 			boolean isPromotion = false;
 			int promotex = 0;
 			int promotey = 0;
@@ -142,8 +139,6 @@ public class BoardGui {
 				}	
 				theTiles.get(i).setImage();
 			}
-			takenPiecePointer.getPanel().updateTakenPieces();
-			scoreBoardPointer.getPanel().updateScore();
 
 			//Check if there is a pawn promotion happening
 			if(isPromotion){
@@ -152,6 +147,10 @@ public class BoardGui {
 				promotionPanel.setLocation(300 - 75, 300 - 75);
 			} else {
 				promotionPanel.setVisible(false);
+			}
+
+			if(userGuiPointer != null){
+				userGuiPointer.updateWindow();
 			}
 
 			revalidate();

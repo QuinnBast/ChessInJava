@@ -1,5 +1,6 @@
 package Engine;
 
+import Engine.GameStates.Gamestates;
 import Pieces.King;
 import Pieces.Location;
 import Pieces.Pawn;
@@ -7,14 +8,15 @@ import Pieces.Piece;
 
 public class GameState {
 	public static String currentMove;
-	private static String gameState;
-	private boolean currentPlayerIsInCheck = false; 
+	private static Gamestates gameState;
+	private static boolean currentPlayerIsInCheck = false;
+	private static MoveHistory history = new MoveHistory();
 	private int whiteWins = 0;
 	private int blackWins = 0;
 	
 	public GameState(){
 		this.currentMove = "White";
-		this.gameState = "inGame";
+		this.gameState = Gamestates.INGAME;
 	}
 	
 	public static String getCurrentPlayer(){
@@ -29,7 +31,12 @@ public class GameState {
 		//check if the game is over
 		if(ChessBoard.getKing(currentMove).isInCheck()){
 			this.currentMove = (this.currentMove == "White") ? "Black" : "White";
-			gameState = currentMove + " Wins";
+			if(currentMove == "White"){
+				gameState = Gamestates.WHITE_WINS;
+			} else {
+				gameState = Gamestates.BLACK_WINS;
+			}
+
 			if(currentMove == "White"){this.whiteWins++;}else{blackWins++;}
 			System.out.println(gameState);
 			return;
@@ -45,15 +52,16 @@ public class GameState {
 		}
 		
 		if (ChessBoard.getPlayersPossibleMoves(currentMove) == null && ChessBoard.getKing(currentMove).isInCheck() == false){
-			gameState = "Stalemate";
+			gameState = Gamestates.STALEMATE;
 			System.out.println(gameState);
 			return;
 		}
-		
+
+		//Check if checkmate
 		if(ChessBoard.getKing(currentMove).isInCheck()){
 			setCurrentPlayerInCheck(true);
-			for(Piece piece : ChessBoard.board){
-				if(piece.getColor() == currentMove){
+			for (Piece piece : ChessBoard.board) {
+				if (piece.getColor() == currentMove) {
 					//For each of the current player's pieces,
 					//Try to see if the piece can prevent the check.
 
@@ -61,15 +69,14 @@ public class GameState {
 					Location initialLocation = new Location(piece.getLocation().getX(), piece.getLocation().getY());
 
 					//For all possible moves for that piece, attempt to move that piece.
-					for(Location possibleMove : piece.getPossibleMoves()){
+					for (Location possibleMove : piece.getPossibleMoves()) {
 						//Attempt to move the piece.
 						piece.setLocation(possibleMove.getX(), possibleMove.getY());
 						//If the king isn't in check after the move, it is not checkmate.
-						if(!ChessBoard.getKing(currentMove).isInCheck()){
+						if (!ChessBoard.getKing(currentMove).isInCheck()) {
 							//Reset the piece's location.
 							piece.setLocation(initialLocation.getX(), initialLocation.getY());
 							System.out.println("You are in check!");
-							setCurrentPlayerInCheck(true);
 							return;
 						}
 					}
@@ -79,13 +86,18 @@ public class GameState {
 			}
 			//If its not possible to avoid check, Checkmate.
 			System.out.println("Checkmate");
-			gameState = (currentMove == "White" ? "Black" : "White") + " Wins";
-			if(currentMove == "White"){this.blackWins++;}else{whiteWins++;}
+			GameState.getHistory().checkmate();
+			gameState = (currentMove == "White" ? Gamestates.BLACK_WINS : Gamestates.WHITE_WINS);
+			if (currentMove == "White") {
+				this.blackWins++;
+			} else {
+				whiteWins++;
+			}
 			return;
 		} else {setCurrentPlayerInCheck(false);}
 	}
 
-	public boolean getCurrentPlayerInCheck() {
+	public static boolean getCurrentPlayerInCheck() {
 		return currentPlayerIsInCheck;
 	}
 
@@ -93,11 +105,11 @@ public class GameState {
 		this.currentPlayerIsInCheck = currentPlayerIsInCheck;
 	}
 	
-	public String getGameState(){
-		return this.gameState;
+	public Gamestates getGameState(){
+		return gameState;
 	}
 	
-	public static void setGameState(String state){
+	public void setGameState(Gamestates state){
 		gameState = state;
 	}
 	
@@ -108,4 +120,9 @@ public class GameState {
 	public int getBlackWins(){
 		return blackWins;
 	}
+
+	public static MoveHistory getHistory(){
+		return history;
+	}
+
 }

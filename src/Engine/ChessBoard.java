@@ -1,6 +1,7 @@
 package Engine;
 import java.util.ArrayList;
 
+import Engine.GameStates.Gamestates;
 import Pieces.*;
 
 public class ChessBoard{
@@ -68,7 +69,7 @@ public class ChessBoard{
 		board.add(new Knight("White", 6, 0));
 		board.add(new Rook("White", 7, 0));
 		
-		theState.setGameState("inGame");
+		theState.setGameState(Gamestates.INGAME);
 		theState.setCurrentPlayer("White");
 		theState.setCurrentPlayerInCheck(false);
 		takenPieces.clear();

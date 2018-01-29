@@ -12,8 +12,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import Engine.ChessBoard;
+import Engine.GameState;
+import Engine.GameStates.Gamestates;
 
-public class scoreBoardGui {
+public class ScoreboardGui {
 	private final scorePanel score = new scorePanel();
 
 	public scorePanel getPanel(){
@@ -44,10 +46,10 @@ public class scoreBoardGui {
 		public void updateScore(){
 			WhitePanel.setText("<html><p>White</p><p style='text-align: center; width: 100%'>" + ChessBoard.theState.getWhiteWins() + "</p></html>");
 			BlackPanel.setText("<html><p>Black</p><p style='text-align: center; width: 100%'>" + ChessBoard.theState.getBlackWins() + "</p></html>");
-			if (ChessBoard.theState.getGameState() != "inGame"){
-				inCheckText.setText("<html><p style='color: red; font-size: 16px; margin-right: 60px;'>"+ChessBoard.theState.getGameState()+"</p></html>");
+			if (ChessBoard.theState.getGameState() != Gamestates.INGAME){
+				inCheckText.setText("<html><p style='color: red; font-size: 16px; margin-right: 60px;'>"+ChessBoard.theState.getGameState().toString()+"</p></html>");
 			} else { inCheckText.setText("<html><p style='color: red; font-size: 16px; margin-right: 60px;'>In Check!</p></html>"); }
-			if (ChessBoard.theState.getCurrentPlayerInCheck() || ChessBoard.theState.getGameState() != "inGame"){
+			if (ChessBoard.theState.getCurrentPlayerInCheck() || ChessBoard.theState.getGameState() != Gamestates.INGAME){
 				inCheck.setVisible(true);
 			} else {
 				inCheck.setVisible(false);

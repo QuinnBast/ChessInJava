@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import Engine.ChessBoard;
 import Engine.GameState;
+import Engine.GameStates.Gamestates;
 
 public abstract class Piece {
 	private String color;
@@ -48,14 +49,18 @@ public abstract class Piece {
 	}
 	
 	public boolean move(Location here){
-		if(ChessBoard.theState.getGameState() == "inGame"){
-			if (ChessBoard.theState.getCurrentPlayer() == getColor()){
+		if(ChessBoard.theState.getGameState() == Gamestates.INGAME){
+			if (GameState.getCurrentPlayer() == getColor()){
 				if (this.canMoveTo(here) == 1 || this.canMoveTo(here) == 2){
+					boolean capture = false;
+					Location lastLocation = new Location(this.getLocation().getX(), this.getLocation().getY());
+
 					//If you are trying to move to a valid location, check if there is an opponent there.
 					if (ChessBoard.getPieceAtLocation(here.getX(), here.getY()) != null){
 						//there is a piece there, lets remove it!
 						ChessBoard.takenPieces.add(ChessBoard.getPieceAtLocation(here.getX(), here.getY()));
 						ChessBoard.board.remove(ChessBoard.getPieceAtLocation(here.getX(), here.getY()));
+						capture = true;
 					}
 					//Is a pawn moving twice?
 					//Check if the pawn moved twice for enPassant
@@ -73,6 +78,7 @@ public abstract class Piece {
 						//if you are capturing enPassant:
 						for(Location l : this.getPossibleMoves()){
 							if(l.getY() == here.getY() && l.getX() == here.getX() && l.isEnPassant()){
+								capture = true;
 								if (GameState.getCurrentPlayer() == "White") {
 									//Remove the pawn below the space for white
 									ChessBoard.takenPieces.add(ChessBoard.getPieceAtLocation(here.getX(), here.getY()-1));
@@ -86,17 +92,8 @@ public abstract class Piece {
 								}
 							}
 						}
-
-						//If you are promoting on the last file:
-						if(here.getX() == 0 || here.getX() == 7){
-							//Call up Gui to promote
-
-						}
 					}
 
-				//move the piece and return
-					setLocation(here.getX(), here.getY());
-					
 					//Do we need to move more than one piece in this move (castling/en Passant?)
 					//Is a king castling??
 					if (this.canMoveTo(here) == 2){
@@ -105,20 +102,29 @@ public abstract class Piece {
 						if (xUp1 == 3){
 							//the King is White castling left
 							ChessBoard.getPieceAtLocation(0,0).setLocation(3, 0);
+							GameState.getHistory().addOOOCastle();
 						} else if (xUp1 == 7){
 							//the king is White castling right
 							ChessBoard.getPieceAtLocation(7,0).setLocation(5, 0);
+							GameState.getHistory().addOOCastle();
 						} else if (xUp1 == 6){
 							//The king is Black castling (right to White) left
 							ChessBoard.getPieceAtLocation(7,7).setLocation(4, 7);
+							GameState.getHistory().addOOCastle();
 						} else if (xUp1 == 2){
 							//the king is Black castling (left to White) right
 							ChessBoard.getPieceAtLocation(0,7).setLocation(2, 7);
+							GameState.getHistory().addOOOCastle();
 						}
 						King theKing = (King) this;
 						theKing.setHasMoved();
 					}
+
+
+				//move the piece and return
+				setLocation(here.getX(), here.getY());
 				ChessBoard.theState.switchPlayer();
+				GameState.getHistory().addMove(this, lastLocation, capture);
 				return true;
 				}
 			}
