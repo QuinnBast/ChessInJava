@@ -12,6 +12,7 @@ Implemented:
 - Castling
 - EnPassant
 - Promoting Pawns
+- Chess notation for Move history
 
 To Implement: 
 - Prevent castling if enemy has possible moves along castle squares!
@@ -19,7 +20,6 @@ To Implement:
 - Stalemate by 50 moves no captures
 - Stalemate by threefold repetition.
 - Material value indicator (pawn = 1, knight = 3, etc.)
-- Chess notation for Move history
 - Request to draw
 - Settings menu
   - Maximum Turn timer (Toggleable)
