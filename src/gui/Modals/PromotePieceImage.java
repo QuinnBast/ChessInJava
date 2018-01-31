@@ -1,4 +1,4 @@
-package gui;
+package gui.Modals;
 
 import Engine.Board.ChessBoard;
 import Engine.GameState;
@@ -19,7 +19,7 @@ public class PromotePieceImage extends JButton {
     private JLabel label = new JLabel();
     private JPanel callback;
 
-    PromotePieceImage(String pieceName, JPanel parent) {
+    public PromotePieceImage(String pieceName, JPanel parent) {
 
         this.callback = parent;
 

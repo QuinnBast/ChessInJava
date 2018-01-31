@@ -168,14 +168,57 @@ public abstract class Piece {
 				if (here.isCastling()){
 					return 2;
 				}
+
+				//Check if the current player is in check when moving the piece
+				if(GameState.getPlayerInCheck(GameState.getCurrentPlayer())){
+					//Check if after moving the piece the player is no longer in check
+					Location l = new Location(this.getLocation().getX(), this.getLocation().getY());
+					this.setLocation(here.getX(), here.getY());
+
+					Piece capture = null;
+					if(ChessBoard.getPieceAtLocation(l.getX(), l.getY()) != null){
+						//there is a piece that needs to be captured
+						capture = ChessBoard.getPieceAtLocation(l.getX(), l.getY());
+						ChessBoard.getBoard().remove(capture);
+					}
+
+					//If the player is still in check the move is not valid.
+					if(GameState.getPlayerInCheck(GameState.getCurrentPlayer())){
+						this.setLocation(l.getX(), l.getY());
+						if(capture != null){
+							ChessBoard.getBoard().add(capture);
+						}
+						return 0;
+					} else {
+						this.setLocation(l.getX(), l.getY());
+						if(capture != null){
+							ChessBoard.getBoard().add(capture);
+						}
+						return 1;
+					}
+				}
+
+				//Check if the player is trying to move a piece pinned to the king
 				Location l = new Location(this.getLocation().getX(), this.getLocation().getY());
+				Piece capture = null;
+				if(ChessBoard.getPieceAtLocation(l.getX(), l.getY()) != null){
+					//there is a piece that needs to be captured
+					capture = ChessBoard.getPieceAtLocation(l.getX(), l.getY());
+					ChessBoard.getBoard().remove(capture);
+				}
 				this.setLocation(here.getX(), here.getY());
 				if(GameState.getPlayerInCheck(GameState.getCurrentPlayer())){
 					//If the player is trying to move a pinned piece, it is invalid.
 					this.setLocation(l.getX(), l.getY());
+					if(capture != null){
+						ChessBoard.getBoard().add(capture);
+					}
 					return 0;
 				}
 				this.setLocation(l.getX(), l.getY());
+				if(capture != null){
+					ChessBoard.getBoard().add(capture);
+				}
 				return 1;
 			}
 		}

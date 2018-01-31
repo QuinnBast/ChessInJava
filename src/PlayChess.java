@@ -8,5 +8,6 @@ public class PlayChess {
 	public static userGui gui = new userGui();
 	
 	public static void main(String args[]){
+
 	}
 }

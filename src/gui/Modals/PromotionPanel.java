@@ -1,4 +1,4 @@
-package gui;
+package gui.Modals;
 
 import Engine.GameState;
 
@@ -14,7 +14,7 @@ public class PromotionPanel extends JPanel {
     int locationx = 0;
     int locationy = 0;
 
-    PromotionPanel(){
+    public PromotionPanel(){
         this.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
