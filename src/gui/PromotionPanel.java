@@ -1,15 +1,9 @@
 package gui;
 
-import Engine.ChessBoard;
 import Engine.GameState;
-import Pieces.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 /**
  * Created by Quinn on 1/26/2018.

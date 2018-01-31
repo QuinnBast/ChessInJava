@@ -1,4 +1,4 @@
-package Pieces;
+package Engine.Board.Pieces;
 
 public class Location {
 	private int x;

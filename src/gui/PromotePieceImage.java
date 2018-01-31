@@ -1,12 +1,11 @@
 package gui;
 
-import Engine.ChessBoard;
+import Engine.Board.ChessBoard;
 import Engine.GameState;
-import Pieces.*;
+import Engine.Board.Pieces.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;

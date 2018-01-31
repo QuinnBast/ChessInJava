@@ -7,7 +7,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-import Engine.ChessBoard;
+import Engine.Board.ChessBoard;
 
 public class MenuGui {
 	//Object for the menu bar

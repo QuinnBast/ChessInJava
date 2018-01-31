@@ -1,8 +1,8 @@
-package Pieces;
+package Engine.Board.Pieces;
 
 import java.util.ArrayList;
 
-import Engine.ChessBoard;
+import Engine.Board.ChessBoard;
 
 public class Knight extends Piece {
 	public Knight(String owner, int posx, int posy){

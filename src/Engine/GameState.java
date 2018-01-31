@@ -1,10 +1,11 @@
 package Engine;
 
+import Engine.Board.ChessBoard;
 import Engine.GameStates.Gamestates;
-import Pieces.King;
-import Pieces.Location;
-import Pieces.Pawn;
-import Pieces.Piece;
+import Engine.Movement.MovementControls.MoveHistory;
+import Engine.Board.Pieces.Location;
+import Engine.Board.Pieces.Pawn;
+import Engine.Board.Pieces.Piece;
 
 public class GameState {
 	public static String currentMove;
@@ -94,8 +95,8 @@ public class GameState {
 		} else {setCurrentPlayerInCheck(false);}
 	}
 
-	public static boolean getCurrentPlayerInCheck() {
-		return currentPlayerIsInCheck;
+	public static boolean getPlayerInCheck(String color){
+		return ChessBoard.getKing(color).isInCheck();
 	}
 
 	public void setCurrentPlayerInCheck(boolean currentPlayerIsInCheck) {

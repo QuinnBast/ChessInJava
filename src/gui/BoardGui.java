@@ -15,10 +15,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import Engine.ChessBoard;
-import Pieces.Location;
-import Pieces.Pawn;
-import Pieces.Piece;
+import Engine.Board.ChessBoard;
+import Engine.Board.Pieces.Location;
+import Engine.Board.Pieces.Pawn;
+import Engine.Board.Pieces.Piece;
 
 public class BoardGui {
 	private final BoardPanel boardPanel;

@@ -1,4 +1,4 @@
-import Engine.ChessBoard;
+import Engine.Board.ChessBoard;
 import Engine.GameState;
 import gui.userGui;
 

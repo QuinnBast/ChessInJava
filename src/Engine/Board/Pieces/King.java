@@ -1,8 +1,8 @@
-package Pieces;
+package Engine.Board.Pieces;
 
 import java.util.ArrayList;
 
-import Engine.ChessBoard;
+import Engine.Board.ChessBoard;
 
 public class King extends Piece {
 	private boolean hasMoved = false;
@@ -143,18 +143,18 @@ public class King extends Piece {
 			} else {
 				if(ChessBoard.getPieceAtLocation(1, 7) == null &&
 					ChessBoard.getPieceAtLocation(2, 7) == null &&
-					ChessBoard.getPieceAtLocation(7, 7) != null &&
-					ChessBoard.getPieceAtLocation(7, 7).getName() == "Rook"){
-						Location temp = new Location(1, 7);
+					ChessBoard.getPieceAtLocation(3, 7) == null &&
+					ChessBoard.getPieceAtLocation(0, 7) != null &&
+					ChessBoard.getPieceAtLocation(0, 7).getName() == "Rook"){
+						Location temp = new Location(2, 7);
 						temp.setIsCastling();
 						possibleCastle.add(temp);
 				}
-				if(ChessBoard.getPieceAtLocation(6, 7) == null &&
-				   ChessBoard.getPieceAtLocation(5, 7) == null &&
-				   ChessBoard.getPieceAtLocation(4, 7) == null &&
+				if(ChessBoard.getPieceAtLocation(5, 7) == null &&
+				   ChessBoard.getPieceAtLocation(6, 7) == null &&
 				   ChessBoard.getPieceAtLocation(7, 7) != null &&
 				   ChessBoard.getPieceAtLocation(7, 7).getName() == "Rook"){
-						Location temp = new Location(5, 7);
+						Location temp = new Location(6, 7);
 						temp.setIsCastling();
 						possibleCastle.add(temp);
 					}

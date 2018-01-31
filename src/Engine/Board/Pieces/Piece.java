@@ -1,10 +1,13 @@
-package Pieces;
+package Engine.Board.Pieces;
 
 import java.util.ArrayList;
 
-import Engine.ChessBoard;
+import Engine.Board.ChessBoard;
 import Engine.GameState;
 import Engine.GameStates.Gamestates;
+import Engine.Movement.Moves.Capture;
+import Engine.Movement.Moves.Castle;
+import Engine.Movement.Moves.Move;
 
 public abstract class Piece {
 	private String color;
@@ -62,6 +65,7 @@ public abstract class Piece {
 		}
 
 		boolean capture = false;
+		boolean castle = false;
 		Piece capturedPiece = null;
 		Location lastLocation = new Location(this.getLocation().getX(), this.getLocation().getY());
 
@@ -107,27 +111,25 @@ public abstract class Piece {
 
 		//Do we need to move more than one piece in this move (castling/en Passant?)
 		//Is a king castling??
-		if (this.canMoveTo(here) == 2){
+		if (this.canMoveTo(here) == 2 && this instanceof King){
+			castle = true;
 			//check the direction that the king is castling
-			int xUp1 = here.getX() + 1;
-			if (xUp1 == 2){
+			if (here.getX() == 2){
 				//Castling left
+				GameState.getHistory().addMove(new Castle(this, this.getLocation(), here, true));
 				if(getColor() == "White") {
 					ChessBoard.getPieceAtLocation(0,0).setLocation(3, 0);
-					GameState.getHistory().addOOOCastle();
 				}
 				else {
-					ChessBoard.getPieceAtLocation(0,7).setLocation(2, 7);
-					GameState.getHistory().addOOOCastle();
+					ChessBoard.getPieceAtLocation(0,7).setLocation(3, 7);
 				}
-			} else if (xUp1 == 6) {
-				//Castling left
+			} else if (here.getX() == 6) {
+				//Castling right
+				GameState.getHistory().addMove(new Castle(this, this.getLocation(), here, false));
 				if (getColor() == "White") {
 					ChessBoard.getPieceAtLocation(7, 0).setLocation(5, 0);
-					GameState.getHistory().addOOCastle();
 				} else {
-					ChessBoard.getPieceAtLocation(7, 7).setLocation(4, 7);
-					GameState.getHistory().addOOCastle();
+					ChessBoard.getPieceAtLocation(7, 7).setLocation(5, 7);
 				}
 			}
 
@@ -137,7 +139,13 @@ public abstract class Piece {
 		//move the piece and return
 		setLocation(here.getX(), here.getY());
 		ChessBoard.theState.switchPlayer();
-		GameState.getHistory().addMove(this, lastLocation, capture);
+		if(!castle) {
+			if (capture) {
+				GameState.getHistory().addMove(new Capture(this, lastLocation, here, capturedPiece, GameState.getPlayerInCheck(GameState.getCurrentPlayer())));
+			} else {
+				GameState.getHistory().addMove(new Move(this, lastLocation, here,GameState.getPlayerInCheck(GameState.getCurrentPlayer())));
+			}
+		}
 		return true;
 	}
 	
@@ -160,6 +168,14 @@ public abstract class Piece {
 				if (here.isCastling()){
 					return 2;
 				}
+				Location l = new Location(this.getLocation().getX(), this.getLocation().getY());
+				this.setLocation(here.getX(), here.getY());
+				if(GameState.getPlayerInCheck(GameState.getCurrentPlayer())){
+					//If the player is trying to move a pinned piece, it is invalid.
+					this.setLocation(l.getX(), l.getY());
+					return 0;
+				}
+				this.setLocation(l.getX(), l.getY());
 				return 1;
 			}
 		}

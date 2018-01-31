@@ -1,9 +1,7 @@
 package gui;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -14,7 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import Engine.ChessBoard;
+import Engine.Board.ChessBoard;
 
 public class takenPieceGui{
 	private final takenPiecePanel takenPanel = new takenPiecePanel();

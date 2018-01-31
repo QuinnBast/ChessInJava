@@ -1,8 +1,9 @@
-package Engine;
+package Engine.Board;
 import java.util.ArrayList;
 
+import Engine.GameState;
 import Engine.GameStates.Gamestates;
-import Pieces.*;
+import Engine.Board.Pieces.*;
 
 public class ChessBoard{
 	public static ArrayList<Piece> board = new ArrayList<Piece>();
