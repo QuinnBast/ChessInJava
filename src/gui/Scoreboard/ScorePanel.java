@@ -37,8 +37,11 @@ public class ScorePanel extends JPanel {
         BlackPanel.setText("<html><p>Black</p><p style='text-align: center; width: 100%'>" + ChessBoard.theState.getBlackWins() + "</p></html>");
         if (ChessBoard.theState.getGameState() != Gamestates.INGAME){
             inCheckText.setText("<html><p style='color: red; font-size: 16px; margin-right: 60px;'>"+ChessBoard.theState.getGameState().toString()+"</p></html>");
-        } else { inCheckText.setText("<html><p style='color: red; font-size: 16px; margin-right: 60px;'>In Check!</p></html>"); }
-        if (ChessBoard.theState.getPlayerInCheck(ChessBoard.theState.getCurrentPlayer()) || ChessBoard.theState.getGameState() != Gamestates.INGAME){
+            inCheck.setVisible(true);
+        } else {
+            inCheckText.setText("<html><p style='color: red; font-size: 16px; margin-right: 60px;'>In Check!</p></html>");
+        }
+        if (ChessBoard.theState.getPlayerInCheck(ChessBoard.theState.getCurrentPlayer())){
             inCheck.setVisible(true);
         } else {
             inCheck.setVisible(false);
