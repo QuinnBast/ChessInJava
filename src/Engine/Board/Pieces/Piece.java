@@ -158,7 +158,6 @@ public abstract class Piece {
 		}
 		//move the piece and return
 		setLocation(here.getX(), here.getY());
-		ChessBoard.theState.switchPlayer();
 		if(!castle) {
 			if (capture) {
 				GameState.getHistory().addMove(new Capture(this, lastLocation, here, capturedPiece, GameState.getPlayerInCheck(GameState.getCurrentPlayer())));
@@ -166,6 +165,7 @@ public abstract class Piece {
 				GameState.getHistory().addMove(new Move(this, lastLocation, here,GameState.getPlayerInCheck(GameState.getCurrentPlayer())));
 			}
 		}
+		ChessBoard.theState.switchPlayer();
 		return true;
 	}
 	

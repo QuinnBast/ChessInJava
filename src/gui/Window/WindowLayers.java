@@ -40,6 +40,7 @@ public class WindowLayers extends JLayeredPane {
     }
 
     public void updateLayers(){
+        this.boardGui.updateBoard();
         this.takenPiecePanel.updateTakenPieces();
         this.scorePanel.updateScore();
         this.moveHistoryPanel.updateMoves();

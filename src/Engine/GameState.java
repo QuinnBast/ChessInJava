@@ -13,7 +13,7 @@ public class GameState {
 	public static String currentMove;
 	private static Gamestates gameState;
 	private static boolean currentPlayerIsInCheck = false;
-	private static MoveHistory history = new MoveHistory();
+	public static MoveHistory history = new MoveHistory();
 	private int whiteWins = 0;
 	private int blackWins = 0;
 	
@@ -26,8 +26,8 @@ public class GameState {
 		return currentMove;
 	}
 	
-	public void setCurrentPlayer(String player){
-		this.currentMove = player;
+	public static void setCurrentPlayer(String player){
+		currentMove = player;
 	}
 	
 	public void switchPlayer(){
@@ -45,6 +45,7 @@ public class GameState {
 				}
 				if(currentMove == "White"){this.whiteWins++;}else{blackWins++;}
 				System.out.println(gameState);
+				gui.Window.Window.updateWindow();
 				return;
 			}
 		}
@@ -61,6 +62,7 @@ public class GameState {
 		if (ChessBoard.getPlayersPossibleMoves(currentMove, false) == null && ChessBoard.getKing(currentMove).isInCheck() == false){
 			gameState = Gamestates.STALEMATE;
 			System.out.println(gameState);
+			gui.Window.Window.updateWindow();
 			return;
 		}
 
@@ -83,6 +85,7 @@ public class GameState {
 						//Reset the piece's location.
 						piece.setLocation(initialLocation.getX(), initialLocation.getY());
 						System.out.println("You are in check!");
+						gui.Window.Window.updateWindow();
 						return;
 					}
 				}
@@ -97,8 +100,10 @@ public class GameState {
 			} else {
 				whiteWins++;
 			}
+			gui.Window.Window.updateWindow();
 			return;
 		} else {setCurrentPlayerInCheck(false);}
+		gui.Window.Window.updateWindow();
 	}
 
 	public static boolean getPlayerInCheck(String color){

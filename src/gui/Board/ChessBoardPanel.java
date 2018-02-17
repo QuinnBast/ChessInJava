@@ -123,7 +123,7 @@ public class ChessBoardPanel extends JPanel {
             userGui.modalController.displayPromotionPanel();
         }
 
-        gui.Window.Window.updateWindow();
+        //gui.Window.Window.updateWindow();
 
         revalidate();
         repaint();
