@@ -13,6 +13,7 @@ Implemented:
 - EnPassant
 - Promoting Pawns
 - Chess notation for Move history
+- Undo and Redo feature
 
 To Implement: 
 - Prevent castling if enemy has possible moves along castle squares!
