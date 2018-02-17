@@ -20,7 +20,9 @@ public class MoveHistory {
     }
 
     public void addMove(Movement m){
+        //If a move is added externally lets clear the undone moves so that the user cannot "redo" the board to an invalid state.
         moves.add(m);
+        this.undoneMoves.clear();
     }
 
     public String printMoves(){
