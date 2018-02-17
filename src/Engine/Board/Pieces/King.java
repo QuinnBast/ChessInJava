@@ -3,6 +3,7 @@ package Engine.Board.Pieces;
 import java.util.ArrayList;
 
 import Engine.Board.ChessBoard;
+import Engine.GameState;
 
 public class King extends Piece {
 	private boolean hasMoved = false;
@@ -102,17 +103,11 @@ public class King extends Piece {
 	}
 	
 	public boolean isInCheck(){
-		if (this.getColor() == ChessBoard.theState.getCurrentPlayer())
-		{
-			for (int i=0; i<ChessBoard.board.size(); i++){
-				//Loop through each piece on the board.
-				Piece thePiece = ChessBoard.board.get(i);
-				//If the piece is an opponent, check if it is putting the king in check.
-				if (this.getColor() != thePiece.getColor()){
-					if(thePiece.canMoveTo(this.getLocation()) == 1){
-						return true;
-					}
-				}
+		//get the opponent's possible moves
+		//If the opponent's possible moves can capture the king, then the king is in check.
+		for (Location l : ChessBoard.getPlayersPossibleMoves(this.getColor() == "White" ? "Black" : "White", true)) {
+			if (l.getX() == this.getLocation().getX() && l.getY() == this.getLocation().getY()) {
+				return true;
 			}
 		}
 		return false;

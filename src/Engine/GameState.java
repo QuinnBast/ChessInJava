@@ -7,6 +7,8 @@ import Engine.Board.Pieces.Location;
 import Engine.Board.Pieces.Pawn;
 import Engine.Board.Pieces.Piece;
 
+import java.util.ArrayList;
+
 public class GameState {
 	public static String currentMove;
 	private static Gamestates gameState;
@@ -31,16 +33,20 @@ public class GameState {
 	public void switchPlayer(){
 		//check if the game is over
 		if(ChessBoard.getKing(currentMove).isInCheck()){
-			this.currentMove = (this.currentMove == "White") ? "Black" : "White";
-			if(currentMove == "White"){
-				gameState = Gamestates.WHITE_WINS;
-			} else {
-				gameState = Gamestates.BLACK_WINS;
-			}
+			ArrayList<Location> moves = ChessBoard.getPlayersPossibleMoves(currentMove, false);
 
-			if(currentMove == "White"){this.whiteWins++;}else{blackWins++;}
-			System.out.println(gameState);
-			return;
+			//If the current player does not have any possible moves, the game is over.
+			if(moves.size() == 0){
+				this.currentMove = (this.currentMove == "White") ? "Black" : "White";
+				if(currentMove == "White"){
+					gameState = Gamestates.WHITE_WINS;
+				} else {
+					gameState = Gamestates.BLACK_WINS;
+				}
+				if(currentMove == "White"){this.whiteWins++;}else{blackWins++;}
+				System.out.println(gameState);
+				return;
+			}
 		}
 		//switch players
 		this.currentMove = (this.currentMove == "White") ? "Black" : "White";
@@ -52,7 +58,7 @@ public class GameState {
 			}
 		}
 		
-		if (ChessBoard.getPlayersPossibleMoves(currentMove) == null && ChessBoard.getKing(currentMove).isInCheck() == false){
+		if (ChessBoard.getPlayersPossibleMoves(currentMove, false) == null && ChessBoard.getKing(currentMove).isInCheck() == false){
 			gameState = Gamestates.STALEMATE;
 			System.out.println(gameState);
 			return;

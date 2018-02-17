@@ -28,14 +28,6 @@ public class ChessBoard{
 	public static ArrayList<Piece> getBoard(){
 		return board;
 	}
-	
-	public ArrayList<Location> getPossibleMoves(int x, int y){
-		Piece thePiece = getPieceAtLocation(x,y);
-		if(thePiece != null){
-			return thePiece.getPossibleMoves();
-		}
-		return null;
-	}
 
 	public static ArrayList<Piece> getPlayersPieces(String color){
 		ArrayList<Piece> pieces = new ArrayList<Piece>();
@@ -51,10 +43,6 @@ public class ChessBoard{
 	
 	public static void clearBoard(){
 		ChessBoard.board.clear();
-	}
-	
-	public GameState getGameState(){
-		return this.theState;
 	}
 	
 	public static void newGame(){
@@ -89,11 +77,19 @@ public class ChessBoard{
 		takenPieces.clear();
 	}
 	
-	public static ArrayList<Location> getPlayersPossibleMoves(String color){
+	public static ArrayList<Location> getPlayersPossibleMoves(String color, boolean ignoreKing){
 		ArrayList<Location> playersMoves = new ArrayList<Location>();
-		for (int i=0; i<board.size(); i++){
-			if (board.get(i).getColor() == color){
-				playersMoves.addAll(board.get(i).getPossibleMoves());
+		if(ignoreKing){
+			for (int i=0; i<board.size(); i++){
+				if (board.get(i).getColor() == color && !(board.get(i) instanceof King)){
+					playersMoves.addAll(board.get(i).getPossibleMoves());
+				}
+			}
+		} else {
+			for (int i = 0; i < board.size(); i++) {
+				if (board.get(i).getColor() == color) {
+					playersMoves.addAll(board.get(i).getPossibleMoves());
+				}
 			}
 		}
 		return playersMoves;

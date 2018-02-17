@@ -52,6 +52,59 @@ public abstract class Piece {
 	}
 	
 	public boolean move(Location here){
+
+		boolean capture = false;
+		boolean castle = false;
+		Piece capturedPiece = null;
+		Location lastLocation = new Location(this.getLocation().getX(), this.getLocation().getY());
+
+		if(this instanceof King) {
+			ArrayList<Location> moves = this.getPossibleMoves();
+			for(Location l : moves){
+				if(here.getX() == l.getX() && here.getY() == l.getY()){
+					//All of the king's moves get checked beforehand thus all king moves are valid. Just need to check if we are castling.
+					//Do we need to move more than one piece in this move (castling/en Passant?)
+					//Is a king castling??
+					if (here.isCastling()){
+						castle = true;
+						//check the direction that the king is castling
+						if (here.getX() == 2){
+							//Castling left
+							GameState.getHistory().addMove(new Castle(this, this.getLocation(), here, true));
+							if(getColor() == "White") {
+								ChessBoard.getPieceAtLocation(0,0).setLocation(3, 0);
+							}
+							else {
+								ChessBoard.getPieceAtLocation(0,7).setLocation(3, 7);
+							}
+						} else if (here.getX() == 6) {
+							//Castling right
+							GameState.getHistory().addMove(new Castle(this, this.getLocation(), here, false));
+							if (getColor() == "White") {
+								ChessBoard.getPieceAtLocation(7, 0).setLocation(5, 0);
+							} else {
+								ChessBoard.getPieceAtLocation(7, 7).setLocation(5, 7);
+							}
+						}
+
+						King theKing = (King) this;
+						theKing.setHasMoved();
+					}
+					//move the piece and return
+					setLocation(here.getX(), here.getY());
+					ChessBoard.theState.switchPlayer();
+					if(!castle) {
+						if (capture) {
+							GameState.getHistory().addMove(new Capture(this, lastLocation, here, capturedPiece, GameState.getPlayerInCheck(GameState.getCurrentPlayer())));
+						} else {
+							GameState.getHistory().addMove(new Move(this, lastLocation, here,GameState.getPlayerInCheck(GameState.getCurrentPlayer())));
+						}
+					}
+					return true;
+				}
+			}
+		}
+
 		if(ChessBoard.theState.getGameState() != Gamestates.INGAME) {
 			return false;
 		}
@@ -63,11 +116,6 @@ public abstract class Piece {
 		if(this.canMoveTo(here) == 0){
 			return false;
 		}
-
-		boolean capture = false;
-		boolean castle = false;
-		Piece capturedPiece = null;
-		Location lastLocation = new Location(this.getLocation().getX(), this.getLocation().getY());
 
 		//If you are trying to move to a valid location, check if there is an opponent there.
 		if (ChessBoard.getPieceAtLocation(here.getX(), here.getY()) != null){
@@ -108,34 +156,6 @@ public abstract class Piece {
 				}
 			}
 		}
-
-		//Do we need to move more than one piece in this move (castling/en Passant?)
-		//Is a king castling??
-		if (this.canMoveTo(here) == 2 && this instanceof King){
-			castle = true;
-			//check the direction that the king is castling
-			if (here.getX() == 2){
-				//Castling left
-				GameState.getHistory().addMove(new Castle(this, this.getLocation(), here, true));
-				if(getColor() == "White") {
-					ChessBoard.getPieceAtLocation(0,0).setLocation(3, 0);
-				}
-				else {
-					ChessBoard.getPieceAtLocation(0,7).setLocation(3, 7);
-				}
-			} else if (here.getX() == 6) {
-				//Castling right
-				GameState.getHistory().addMove(new Castle(this, this.getLocation(), here, false));
-				if (getColor() == "White") {
-					ChessBoard.getPieceAtLocation(7, 0).setLocation(5, 0);
-				} else {
-					ChessBoard.getPieceAtLocation(7, 7).setLocation(5, 7);
-				}
-			}
-
-			King theKing = (King) this;
-			theKing.setHasMoved();
-		}
 		//move the piece and return
 		setLocation(here.getX(), here.getY());
 		ChessBoard.theState.switchPlayer();
@@ -173,14 +193,15 @@ public abstract class Piece {
 				if(GameState.getPlayerInCheck(GameState.getCurrentPlayer())){
 					//Check if after moving the piece the player is no longer in check
 					Location l = new Location(this.getLocation().getX(), this.getLocation().getY());
-					this.setLocation(here.getX(), here.getY());
 
 					Piece capture = null;
-					if(ChessBoard.getPieceAtLocation(l.getX(), l.getY()) != null){
+					if(ChessBoard.getPieceAtLocation(here.getX(), here.getY()) != null){
 						//there is a piece that needs to be captured
-						capture = ChessBoard.getPieceAtLocation(l.getX(), l.getY());
+						capture = ChessBoard.getPieceAtLocation(here.getX(), here.getY());
 						ChessBoard.getBoard().remove(capture);
 					}
+
+					this.setLocation(here.getX(), here.getY());
 
 					//If the player is still in check the move is not valid.
 					if(GameState.getPlayerInCheck(GameState.getCurrentPlayer())){
