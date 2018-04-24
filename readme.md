@@ -4,6 +4,11 @@ This is a side-project of mine where I am practicing my java skills while also l
 The completed project will include a fully functional chess board that will include 2 player local play chess.
 If I am ambitious I may attempt to code an AI that you can play against at a later date.
 
+## How to play:
+Download the "ChessInJava.jar" file and open the jar. The application should start automatically.
+
+## Feature List:
+
 Implemented:
 - Graphics and board
 - Invalid move prevention
